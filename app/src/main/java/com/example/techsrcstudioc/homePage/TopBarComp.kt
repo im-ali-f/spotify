@@ -1,4 +1,4 @@
-package com.example.techsrcstudioc.homePage.topbarComp
+package com.example.techsrcstudioc.homePage
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -28,7 +28,7 @@ fun TopBarComp(
     lsModel: LoginLogoutViewModel
 ) {
     Row(
-        Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, top = 22.dp, bottom = 22.dp),
+        Modifier.fillMaxWidth().padding(start = 17.dp, end = 10.dp, top = 22.dp, bottom = 22.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {

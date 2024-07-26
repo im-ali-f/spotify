@@ -70,6 +70,10 @@ dependencies {
 
     //nav
     implementation("androidx.navigation:navigation-compose:2.7.7")
+    //animation navigation
+    implementation(libs.androidx.compose.animation)
+
+    implementation(platform("androidx.compose:compose-bom:2024.02.01"))
 
     //scaffold
     implementation("androidx.compose.material:material:1.6.2")

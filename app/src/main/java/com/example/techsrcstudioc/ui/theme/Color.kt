@@ -16,3 +16,8 @@ val mainBGC = Color(0xFF121212)
 val spotifyIconColor = Color(0xFF1ED760)
 val unclickedBTNColor = Color(0xFF384656)
 
+//search
+val mainFontColor = Color(0xB3121212)
+val searchIconColor = Color(0xFF121212)
+val lightWhiteFontColor = Color(0xB3FFFFFF)
+
