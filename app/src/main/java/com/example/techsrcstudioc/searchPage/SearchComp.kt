@@ -56,64 +56,67 @@ fun SharedTransitionScope.SearchComp(
                 Spacer(modifier = Modifier.height(8.dp))
             }
             items(searchModel.foundedItems) { item ->
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-                        .clip(RoundedCornerShape(0.dp, 5.dp, 5.dp, 0.dp))
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = rememberRipple(color = Color.LightGray)
-                        ) {
-                            //todo play this music
-                        },
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(68.dp)
-                            .background(Color.LightGray)
-                    ) {
-                        AsyncImage(
-                            modifier = Modifier.fillMaxSize(),
-                            model = item.album.images[2].url,
-                            contentDescription = "Image of post",
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-
-                    Column(
+                    Row(
                         Modifier
                             .fillMaxWidth()
-                            .padding(start = 14.dp)
+                            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                            .clip(RoundedCornerShape(0.dp, 5.dp, 5.dp, 0.dp))
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = rememberRipple(color = Color.LightGray)
+                            ) {
+                                //todo play this music
+                            },
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = "${item.name}",
-                            fontSize = 15.sp,
-                            lineHeight = 21.sp,
-                            fontWeight = FontWeight(400),
-                            color = Color.White
-                        )
-                        Text(
-                            text = searchModel.getArtistString(item.artists),
-                            fontSize = 12.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(400),
-                            color = lightWhiteFontColor
-                        )
+                        Box(
+                            modifier = Modifier
+                                .size(68.dp)
+                                .background(Color.LightGray)
+                        ) {
+                            AsyncImage(
+                                modifier = Modifier.fillMaxSize(),
+                                model = item.album.images[2].url,
+                                contentDescription = "Image of post",
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = 14.dp)
+                        ) {
+                            Text(
+                                text = "${item.name}",
+                                fontSize = 15.sp,
+                                lineHeight = 21.sp,
+                                fontWeight = FontWeight(400),
+                                color = Color.White
+                            )
+                            Text(
+                                text = searchModel.getArtistString(item.artists),
+                                fontSize = 12.sp,
+                                lineHeight = 16.sp,
+                                fontWeight = FontWeight(400),
+                                color = lightWhiteFontColor
+                            )
+                        }
                     }
-                }
             }
             item{
-                Spacer(modifier = Modifier.height(70.dp))
+                Spacer(modifier = Modifier.height(130.dp))
             }
             item {
+
                 LaunchedEffect(true) {
                     if(searchModel.foundedItems.isNotEmpty()){
                         searchModel.ContinueGetSearchedItemsFunctionallity()
                     }
 
                 }
+
+
             }
         }
     }

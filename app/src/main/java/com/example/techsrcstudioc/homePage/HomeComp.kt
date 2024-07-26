@@ -37,7 +37,7 @@ fun HomeComp(
             TopBarComp(navController = navController, generalModel = generalModel , lsModel = lsModel )
         },
         bottomBar = {
-            BottomBarComp(navController = innerNavState, generalModel = generalModel)
+            BottomBarComp(navController = innerNavState, generalModel = generalModel, searchModel = searchModel)
         },
         modifier = Modifier
             .fillMaxSize()

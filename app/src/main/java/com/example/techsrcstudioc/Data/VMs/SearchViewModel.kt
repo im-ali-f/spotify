@@ -92,9 +92,6 @@ class SearchViewModel(
                 }
             })
         }
-        else{
-            foundedItems =listOf<Item>()
-        }
     }
 
     fun getArtistString(artistsList: List<ArtistX>): String {
