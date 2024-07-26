@@ -1,12 +1,14 @@
 package com.example.techsrcstudioc
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,8 +23,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import com.example.techsrcstudioc.Data.API.Repository
+import com.example.techsrcstudioc.Data.API.SpotifyAPI
 import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
+import com.example.techsrcstudioc.Data.VMs.MainViewModel
+import com.example.techsrcstudioc.Data.VMs.SearchViewModel
 import com.example.techsrcstudioc.homePage.HomeComp
 import com.example.techsrcstudioc.loginPage.LoginComp
 import com.example.techsrcstudioc.ui.theme.TechsrcstudiocTheme
@@ -42,12 +48,17 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //view models dependency
         var context = this
+        val repo = Repository()
+
+        val mainVM = MainViewModel(repo)
         val gerenalVM = GeneralViewModel(requestPermissionsLauncher, context)
         val lsVM = LoginLogoutViewModel(context)
+        val searchVM = SearchViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM)
 
         //enableEdgeToEdge()
         //permissions function
@@ -60,8 +71,7 @@ class MainActivity : ComponentActivity() {
                     color = mainBGC
                 ) {
                     val navStateBig = rememberNavController()
-                    //val startDestination = model.validateToken()
-                    val startDestination = "homePage"
+                    val startDestination = if(gerenalVM.IsExpiredToken()) "loginPage" else "homePage"
                     NavHost(navController = navStateBig, startDestination = startDestination) {
                         composable("loginPage") {
                             LoginComp(
@@ -73,7 +83,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
-                            route = "deepLinkDoNotNavigateDirectly",
+                            route = "DoNotUseThisRoute",
                             deepLinks = listOf(
                                 navDeepLink {
                                     uriPattern =
@@ -88,35 +98,29 @@ class MainActivity : ComponentActivity() {
                                 },
                                 navArgument("type") {
                                     type = NavType.StringType
-                                    defaultValue = "NOK"
+                                    defaultValue = ""
                                 },
                                 navArgument("expire") {
-                                    type = NavType.StringType
-                                    defaultValue = "NOK"
+                                    type = NavType.IntType
+                                    defaultValue = 0
                                 }
                             )
                         ) { entry ->
-                            Column(
-                                Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Text(
-                                    text = "authority : " + entry.arguments?.get("token")
-                                        .toString()
-                                )
-                                Text(text = "status : " + entry.arguments?.get("type").toString())
-                                Text(text = "status : " + entry.arguments?.get("expire").toString())
-                            }
+                            gerenalVM.saveData("token", entry.arguments?.get("token").toString())
+                            gerenalVM.saveData("expire", gerenalVM.calculateExpire())
+                            Log.d(TAG, "onCreate: ${entry.arguments?.get("token")}")
+                            Log.d(TAG, "onCreate: ${entry.arguments?.get("expire")}")
+                            navStateBig.navigate("homePage")
 
 
                         }
-                        composable("homePage") {
+                        composable(route = "homePage"){
                             HomeComp(
                                 navController = navStateBig,
                                 generalModel = gerenalVM,
-                                lsModel = lsVM
+                                lsModel = lsVM,
+                                searchModel = searchVM
                             )
-
                         }
 
                         /*

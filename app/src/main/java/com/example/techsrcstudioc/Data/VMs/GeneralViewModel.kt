@@ -2,40 +2,48 @@ package com.example.techsrcstudioc.Data.VMs
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
+import java.util.Base64
+import kotlin.math.exp
 
-class GeneralViewModel(var requestPermissionsLauncher: ActivityResultLauncher<Array<String>> , var context: Context) : ViewModel() {
+class GeneralViewModel(
+    var requestPermissionsLauncher: ActivityResultLauncher<Array<String>>,
+    var context: Context
+) : ViewModel() {
     //permission handling
 
-/*
-    fun checkPermissions() {//todo change permissions that needed
+    /*
+        fun checkPermissions() {//todo change permissions that needed
 
-        val requiredPermissions = arrayOf(
+            val requiredPermissions = arrayOf(
 
-            Manifest.permission.RECEIVE_SMS,
-            Manifest.permission.SEND_SMS,
-            Manifest.permission.READ_SMS,
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_MEDIA_IMAGES,
-            Manifest.permission.READ_MEDIA_VIDEO,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+                Manifest.permission.RECEIVE_SMS,
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.READ_SMS,
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
 
 
-        )
+            )
 
-        val permissionsToRequest = requiredPermissions.filter {
-            ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED
+            val permissionsToRequest = requiredPermissions.filter {
+                ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED
+            }
+
+            if (permissionsToRequest.isNotEmpty()) {
+                requestPermissionsLauncher.launch(permissionsToRequest.toTypedArray())
+            }
+
         }
 
-        if (permissionsToRequest.isNotEmpty()) {
-            requestPermissionsLauncher.launch(permissionsToRequest.toTypedArray())
-        }
-
-    }
-
-         */
+             */
 
     //shared preferences
     private val sharedPreferences: SharedPreferences =
@@ -56,4 +64,37 @@ class GeneralViewModel(var requestPermissionsLauncher: ActivityResultLauncher<Ar
         editor.remove(key)
         editor.apply()
     }
+
+    fun calculateExpire():String{
+        val currentTime = System.currentTimeMillis()
+        val expireTime = currentTime + (3600 * 1000)
+        return expireTime.toString()
+
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun IsExpiredToken(): Boolean {
+        Log.d("expired token?", "checkTOKEN: started")
+
+        val token = getData("token", "")
+        Log.d("expired token?", "checkTOKEN: $token")
+        var expired = false
+
+        if (token == "") {
+            expired = true
+        } else {
+            val expire = getData("expire", "0").toLong() /1000
+            val currentTimestamp = System.currentTimeMillis() / 1000
+            Log.d("expired token?", "checkTOKEN: ${expire}")
+            Log.d("expired token?", "checkTOKEN: $currentTimestamp")
+
+            expired = currentTimestamp > expire
+
+        }
+
+
+        Log.d("expired token?", "checkTOKEN: $expired")
+        return expired
+
+    }
+
 }

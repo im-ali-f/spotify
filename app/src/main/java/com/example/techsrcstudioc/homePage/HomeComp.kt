@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
+import com.example.techsrcstudioc.Data.VMs.SearchViewModel
 import com.example.techsrcstudioc.searchPage.SearchBar
 import com.example.techsrcstudioc.searchPage.SearchComp
 import com.example.techsrcstudioc.ui.theme.mainBGC
@@ -26,7 +27,8 @@ import com.example.techsrcstudioc.ui.theme.mainBGC
 fun HomeComp(
     navController: NavController,
     generalModel: GeneralViewModel,
-    lsModel: LoginLogoutViewModel
+    lsModel: LoginLogoutViewModel,
+    searchModel: SearchViewModel
 ) {
 
     //better in mainactivity
@@ -46,7 +48,7 @@ fun HomeComp(
             NavHost(navController = innerNavState, startDestination = "searchPart") {
 
                 composable("searchPart") {
-                    SearchComp(navController = navController, generalModel = generalModel)
+                    SearchComp(navController = navController, generalModel = generalModel, searchModel =searchModel )
                 }
 
 

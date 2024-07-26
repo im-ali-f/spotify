@@ -50,6 +50,7 @@ fun SearchBar(
         value = searchModel.enteredSearch,
         onValueChange = { new ->
             searchModel.enteredSearch = new
+            searchModel.GetSearchedItemsFunctionallity()
         },
         singleLine = true,
         maxLines = 1,
