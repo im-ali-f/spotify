@@ -18,7 +18,6 @@ import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.Data.VMs.SearchViewModel
 import com.example.techsrcstudioc.Data.VMs.TrackViewModel
-import com.example.techsrcstudioc.TrackComp.customToastUI
 import com.example.techsrcstudioc.searchPage.SearchBar
 import com.example.techsrcstudioc.searchPage.SearchComp
 import com.example.techsrcstudioc.ui.theme.mainBGC
@@ -51,13 +50,13 @@ fun HomeComp(
 
 
         SharedTransitionLayout {
-            NavHost(navController = innerNavState, startDestination = "trackPart") {
+            NavHost(navController = innerNavState, startDestination = "searchPart") {
 
                 composable("searchPart") {
                     SearchComp(navController = navController, generalModel = generalModel, searchModel =searchModel, trackModel )
                 }
                 composable("trackPart") {
-                    customToastUI()
+
                 }
 
 

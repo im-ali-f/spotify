@@ -35,9 +35,22 @@ import com.example.techsrcstudioc.loginPage.LoginComp
 import com.example.techsrcstudioc.ui.theme.TechsrcstudiocTheme
 import com.example.techsrcstudioc.ui.theme.mainBGC
 
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+
+import com.spotify.protocol.client.Subscription;
+import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.Track;
+
+
 class MainActivity : ComponentActivity() {
     //dependency for permission + handle if not granted
     val TAG = "MainActivity -->"
+    private val clientId = "36ec84b682f44b089afb62e40fd0e693"
+    private val redirectUri = "http://192.168.1.103:3000"
+
+    private var spotifyAppRemote: SpotifyAppRemote? = null
     val requestPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -52,6 +65,9 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
         //view models dependency
         var context = this
         val repo = Repository()
@@ -72,6 +88,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = mainBGC
                 ) {
+
                     val navStateBig = rememberNavController()
                     val startDestination = if(gerenalVM.IsExpiredToken()) "loginPage" else "homePage"
                     NavHost(navController = navStateBig, startDestination = startDestination) {
@@ -150,13 +167,46 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
 
+    override fun onStart() {
+        super.onStart()
+        val connectionParams = ConnectionParams.Builder(clientId)
+            .setRedirectUri(redirectUri)
+            .showAuthView(true)
+            .build()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TechsrcstudiocTheme {
+        SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
+            override fun onConnected(appRemote: SpotifyAppRemote) {
+                spotifyAppRemote = appRemote
+                Log.d("MainActivity", "Connected to Spotify Remote SDK!")
+                // You can start using the remote app API
+                connected()
+            }
 
+            override fun onFailure(throwable: Throwable) {
+                Log.e("MainActivity", throwable.message, throwable)
+            }
+        })
     }
+
+    private fun connected() {
+        spotifyAppRemote?.let {
+            val playlistURI = "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL"
+            it.playerApi.play(playlistURI)
+            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+                val track: Track = playerState.track
+                Log.d("MainActivity", "${track.name} by ${track.artist.name}")
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        spotifyAppRemote?.let {
+            SpotifyAppRemote.disconnect(it)
+        }
+    }
+
+
 }
+

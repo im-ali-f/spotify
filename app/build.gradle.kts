@@ -130,4 +130,12 @@ dependencies {
     //font
     implementation ("androidx.compose.ui:ui-text-google-fonts:1.0.0")
 
+    implementation (files("libs/spotify-app-remote-release-0.8.0.aar"))
+    //implementation (files("libs/spotify-auth-release-2.1.0.aar"))
+    implementation ("com.google.code.gson:gson:2.6.1")
+
+    //implementation ("com.spotify.android:auth:1.2.5")
+
+
+
 }
