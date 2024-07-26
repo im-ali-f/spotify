@@ -6,6 +6,9 @@ import android.os.Build
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import java.util.Base64
 import kotlin.math.exp
@@ -96,5 +99,8 @@ class GeneralViewModel(
         return expired
 
     }
+
+    //home page
+    var selectedBottomBar by mutableStateOf(1)
 
 }

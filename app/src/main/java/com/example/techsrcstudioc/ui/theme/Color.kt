@@ -21,3 +21,7 @@ val mainFontColor = Color(0xB3121212)
 val searchIconColor = Color(0xFF121212)
 val lightWhiteFontColor = Color(0xB3FFFFFF)
 
+//bottom bar
+val unselectedBottomIcon = Color(0xFFACACAC)
+val selectedBottomIcon = Color(0xFFFFFFFF)
+

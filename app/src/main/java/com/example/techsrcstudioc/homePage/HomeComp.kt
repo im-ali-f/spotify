@@ -30,11 +30,14 @@ fun HomeComp(
     lsModel: LoginLogoutViewModel,
     searchModel: SearchViewModel
 ) {
-
+    val innerNavState = rememberNavController()
     //better in mainactivity
     Scaffold(
         topBar = {
             TopBarComp(navController = navController, generalModel = generalModel , lsModel = lsModel )
+        },
+        bottomBar = {
+            BottomBarComp(navController = innerNavState, generalModel = generalModel)
         },
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +46,7 @@ fun HomeComp(
 
     ) {
 
-        val innerNavState = rememberNavController()
+
         SharedTransitionLayout {
             NavHost(navController = innerNavState, startDestination = "searchPart") {
 
