@@ -29,6 +29,7 @@ import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.Data.VMs.MainViewModel
 import com.example.techsrcstudioc.Data.VMs.SearchViewModel
+import com.example.techsrcstudioc.Data.VMs.TrackViewModel
 import com.example.techsrcstudioc.homePage.HomeComp
 import com.example.techsrcstudioc.loginPage.LoginComp
 import com.example.techsrcstudioc.ui.theme.TechsrcstudiocTheme
@@ -59,6 +60,7 @@ class MainActivity : ComponentActivity() {
         val gerenalVM = GeneralViewModel(requestPermissionsLauncher, context)
         val lsVM = LoginLogoutViewModel(context)
         val searchVM = SearchViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM)
+        val trackVM = TrackViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM)
 
         //enableEdgeToEdge()
         //permissions function
@@ -119,7 +121,8 @@ class MainActivity : ComponentActivity() {
                                 navController = navStateBig,
                                 generalModel = gerenalVM,
                                 lsModel = lsVM,
-                                searchModel = searchVM
+                                searchModel = searchVM,
+                                trackModel = trackVM
                             )
                         }
 

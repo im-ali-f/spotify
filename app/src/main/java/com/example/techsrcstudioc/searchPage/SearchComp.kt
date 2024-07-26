@@ -37,6 +37,7 @@ import coil.compose.AsyncImage
 import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.Data.VMs.SearchViewModel
+import com.example.techsrcstudioc.Data.VMs.TrackViewModel
 import com.example.techsrcstudioc.ui.theme.lightWhiteFontColor
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -44,7 +45,8 @@ import com.example.techsrcstudioc.ui.theme.lightWhiteFontColor
 fun SharedTransitionScope.SearchComp(
     navController: NavController,
     generalModel: GeneralViewModel,
-    searchModel: SearchViewModel
+    searchModel: SearchViewModel,
+    trackModel:TrackViewModel
 ) {
     Column(Modifier.fillMaxSize()) {
         SearchBar(navController = navController, generalModel = generalModel, searchModel)
@@ -65,7 +67,7 @@ fun SharedTransitionScope.SearchComp(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = rememberRipple(color = Color.LightGray)
                             ) {
-                                //todo play this music
+                                trackModel.selectedTrack = item
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -77,7 +79,7 @@ fun SharedTransitionScope.SearchComp(
                             AsyncImage(
                                 modifier = Modifier.fillMaxSize(),
                                 model = item.album.images[2].url,
-                                contentDescription = "Image of post",
+                                contentDescription = "Image of track",
                                 contentScale = ContentScale.Crop
                             )
                         }

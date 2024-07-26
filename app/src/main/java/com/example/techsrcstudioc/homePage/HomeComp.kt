@@ -17,6 +17,8 @@ import androidx.navigation.navArgument
 import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.Data.VMs.SearchViewModel
+import com.example.techsrcstudioc.Data.VMs.TrackViewModel
+import com.example.techsrcstudioc.TrackComp.customToastUI
 import com.example.techsrcstudioc.searchPage.SearchBar
 import com.example.techsrcstudioc.searchPage.SearchComp
 import com.example.techsrcstudioc.ui.theme.mainBGC
@@ -28,7 +30,8 @@ fun HomeComp(
     navController: NavController,
     generalModel: GeneralViewModel,
     lsModel: LoginLogoutViewModel,
-    searchModel: SearchViewModel
+    searchModel: SearchViewModel,
+    trackModel: TrackViewModel
 ) {
     val innerNavState = rememberNavController()
     //better in mainactivity
@@ -37,7 +40,7 @@ fun HomeComp(
             TopBarComp(navController = navController, generalModel = generalModel , lsModel = lsModel )
         },
         bottomBar = {
-            BottomBarComp(navController = innerNavState, generalModel = generalModel, searchModel = searchModel)
+            BottomBarComp(navController = innerNavState, generalModel = generalModel, searchModel = searchModel, trackModel = trackModel )
         },
         modifier = Modifier
             .fillMaxSize()
@@ -48,10 +51,13 @@ fun HomeComp(
 
 
         SharedTransitionLayout {
-            NavHost(navController = innerNavState, startDestination = "searchPart") {
+            NavHost(navController = innerNavState, startDestination = "trackPart") {
 
                 composable("searchPart") {
-                    SearchComp(navController = navController, generalModel = generalModel, searchModel =searchModel )
+                    SearchComp(navController = navController, generalModel = generalModel, searchModel =searchModel, trackModel )
+                }
+                composable("trackPart") {
+                    customToastUI()
                 }
 
 
