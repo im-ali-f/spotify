@@ -26,6 +26,7 @@ import androidx.navigation.navDeepLink
 import com.example.techsrcstudioc.Data.API.Repository
 import com.example.techsrcstudioc.Data.API.SpotifyAPI
 import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
+import com.example.techsrcstudioc.Data.VMs.HistoryViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.Data.VMs.MainViewModel
 import com.example.techsrcstudioc.Data.VMs.SearchViewModel
@@ -57,6 +58,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var lsVM: LoginLogoutViewModel
     private lateinit var searchVM: SearchViewModel
     private lateinit var trackVM: TrackViewModel
+    private lateinit var historyVM: HistoryViewModel
 
     val requestPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -84,6 +86,7 @@ class MainActivity : ComponentActivity() {
         lsVM = LoginLogoutViewModel(context)
         searchVM = SearchViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM)
         trackVM = TrackViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM, spotifyAppRemote = spotifyAppRemote)
+        historyVM = HistoryViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM)
 
         //enableEdgeToEdge()
         //permissions function
@@ -146,7 +149,8 @@ class MainActivity : ComponentActivity() {
                                 generalModel = gerenalVM,
                                 lsModel = lsVM,
                                 searchModel = searchVM,
-                                trackModel = trackVM
+                                trackModel = trackVM,
+                                historyModel = historyVM
                             )
                         }
 

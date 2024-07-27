@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.techsrcstudioc.Data.API.Repository
 import com.example.techsrcstudioc.Data.Models.currentlyplayingModel.currentlyPlayingResponse
+import com.example.techsrcstudioc.Data.Models.historyModel.HistoryResponse
 import com.example.techsrcstudioc.Data.Models.searchModel.Item
 import com.example.techsrcstudioc.Data.Models.searchModel.searchResponse
 import kotlinx.coroutines.delay
@@ -39,6 +40,19 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
                 viewModelGetCurrentlyPlaingResponse.value = response
             } catch (e: Exception) {
                 Log.d("GetSearchedItems mainVM --> Error", "${e.message} ")
+            }
+
+        }
+    }
+
+    var viewModelGetHistoryResponse: MutableLiveData<Response<HistoryResponse>> = MutableLiveData()
+    fun GetHistoryItems(tokenUser:String , after :Int,limit:Int) {
+        viewModelScope.launch { //kotlin coroutines
+            try {
+                val response: Response<HistoryResponse> = repository.GetHistoryItems(tokenUser = tokenUser, after = after, limit = limit)
+                viewModelGetHistoryResponse.value = response
+            } catch (e: Exception) {
+                Log.d("GetHistoryItems mainVM --> Error", "${e.message} ")
             }
 
         }

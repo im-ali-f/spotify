@@ -2,6 +2,7 @@ package com.example.techsrcstudioc.Data.API
 
 
 import com.example.techsrcstudioc.Data.Models.currentlyplayingModel.currentlyPlayingResponse
+import com.example.techsrcstudioc.Data.Models.historyModel.HistoryResponse
 import com.example.techsrcstudioc.Data.Models.searchModel.Item
 import com.example.techsrcstudioc.Data.Models.searchModel.searchResponse
 import retrofit2.Response
@@ -28,6 +29,14 @@ interface SpotifyAPI {
         @Query("additional_types") additionalTypes: String = "track",
         @Header("Authorization") tokenUser: String
     ):Response<currentlyPlayingResponse>
+
+
+    @GET("v1/me/player/recently-played")
+    suspend fun GetHistoryItems(
+        @Query("after") after: Int,
+        @Query("limit") limit: Int,
+        @Header("Authorization") tokenUser: String
+    ):Response<HistoryResponse>
 
     /*
     @POST("users/login/")

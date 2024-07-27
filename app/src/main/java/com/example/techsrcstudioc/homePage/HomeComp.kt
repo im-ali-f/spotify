@@ -90,7 +90,9 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.techsrcstudioc.Data.VMs.HistoryViewModel
 import com.example.techsrcstudioc.R
+import com.example.techsrcstudioc.historyPage.HistoryComp
 import com.example.techsrcstudioc.ui.theme.activatedBTN
 
 import com.example.techsrcstudioc.ui.theme.lightWhiteFontColor
@@ -119,7 +121,8 @@ fun HomeComp(
     generalModel: GeneralViewModel,
     lsModel: LoginLogoutViewModel,
     searchModel: SearchViewModel,
-    trackModel: TrackViewModel
+    trackModel: TrackViewModel,
+    historyModel: HistoryViewModel,
 ) {
     val innerNavState = rememberNavController()
     //better in mainactivity
@@ -345,7 +348,8 @@ fun HomeComp(
                                 //CONTROLL play
                                 Row(
                                     Modifier
-                                        .fillMaxWidth().padding(start = 15.dp , end = 15.dp),
+                                        .fillMaxWidth()
+                                        .padding(start = 15.dp, end = 15.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
@@ -470,13 +474,19 @@ fun HomeComp(
                 }
             }
             SharedTransitionLayout {
-                NavHost(navController = innerNavState, startDestination = "searchPart") {
+                NavHost(navController = innerNavState, startDestination = "historyPart") {
 
                     composable("searchPart") {
                         SearchComp(navController = navController, generalModel = generalModel, searchModel =searchModel, trackModel )
                     }
                     composable("historyPart") {
-
+                        HistoryComp(
+                            navController = navController,
+                            generalModel = generalModel,
+                            searchModel = searchModel,
+                            trackModel = trackModel,
+                            historyModel = historyModel
+                        )
                     }
 
 
@@ -507,6 +517,10 @@ fun PercentageSlider(trackModel: TrackViewModel) {
                         unProgressColor
                     )
             ) {}
+            LaunchedEffect(trackModel.selectedTrack) {
+                trackModel.passedTimeMillisGlobal =1
+                trackModel.trackListened = 0.0f
+            }
             androidx.compose.material3.Slider(
                 modifier = Modifier
                     .fillMaxWidth()

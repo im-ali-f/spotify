@@ -2,6 +2,7 @@ package com.example.techsrcstudioc.Data.API
 
 
 import com.example.techsrcstudioc.Data.Models.currentlyplayingModel.currentlyPlayingResponse
+import com.example.techsrcstudioc.Data.Models.historyModel.HistoryResponse
 import com.example.techsrcstudioc.Data.Models.searchModel.Item
 import com.example.techsrcstudioc.Data.Models.searchModel.searchResponse
 import okhttp3.MultipartBody
@@ -17,6 +18,11 @@ class Repository {
     suspend fun GetCurrentlyPlaing(tokenUser :String  ): Response<currentlyPlayingResponse> {
 
         return RetrofitInstance.api.GetCurrentlyTrack(tokenUser = tokenUser )
+    }
+
+    suspend fun GetHistoryItems(tokenUser :String , after:Int, limit:Int  ): Response<HistoryResponse> {
+
+        return RetrofitInstance.api.GetHistoryItems(tokenUser = tokenUser, after = after, limit = limit)
     }
 
     /*

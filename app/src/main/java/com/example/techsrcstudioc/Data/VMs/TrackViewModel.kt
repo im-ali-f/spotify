@@ -77,7 +77,7 @@ class TrackViewModel(
 
 
     var voloume by mutableStateOf(0.5f)
-    var trackListened by mutableStateOf(0.1f)
+    var trackListened by mutableStateOf(0.0f)
     var passedTimeMillisGlobal by mutableStateOf<Long>(0)
 
     var duration by mutableStateOf( 1)
@@ -90,16 +90,35 @@ class TrackViewModel(
         // Calculate the passed time in milliseconds
         val passedTimeMillis = (trackListenedPercentage * duration).toInt()
         passedTimeMillisGlobal = passedTimeMillis.toLong()
-        Log.d("passedTime", "calculatepassedTime: $passedTimeMillis")
+        Log.d("passedTime", "calculatepassedTime: $passedTimeMillis ")
         // Convert the passed time into minutes and seconds
-        val mins = (passedTimeMillis / 60000)
-        val seconds = (passedTimeMillis % 60000)/1000
+        val mins = (passedTimeMillis.toInt() / 60000)
+        val seconds = (passedTimeMillis.toInt() % 60000)/1000
 
         // Return formatted time as "minutes:seconds"
         return String.format("%d:%02d", mins, seconds)
 
     }
 
+    fun seekSlider(){
+        viewModelScope.launch {
+            passedTimeMillisGlobal =1
+            trackListened = 0.0f
+            while (true){
+                Log.d("seek slider", "seekSlider: $passedTimeMillisGlobal")
+                delay(1000)
+                if(playing){
+                    passedTimeMillisGlobal +=1000
+                    if(duration>1){
+                        trackListened = passedTimeMillisGlobal.toFloat()/duration
+                    }
+
+                    Log.d("seek slider", "seekSlider: $trackListened f")
+                }
+            }
+
+        }
+    }
     fun getArtistString(artistsList: List<ArtistX>): String {
         var artistToReturn = ""
         artistsList.forEach {
@@ -154,6 +173,7 @@ class TrackViewModel(
     }
 
     fun play() {
+        seekSlider()
         spotifyAppRemoteInner?.let {
             //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
             val playlistURI = selectedTrack.uri
