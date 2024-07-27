@@ -5,6 +5,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -53,6 +54,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -67,12 +69,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.techsrcstudioc.Data.VMs.TrackViewModel
 import com.example.techsrcstudioc.R
+import com.example.techsrcstudioc.ui.theme.activatedBTN
 
 import com.example.techsrcstudioc.ui.theme.lightWhiteFontColor
 import com.example.techsrcstudioc.ui.theme.progressColor
 import com.example.techsrcstudioc.ui.theme.secondaryIconWhiteColor
+import com.example.techsrcstudioc.ui.theme.selectedBottomIcon
 import com.example.techsrcstudioc.ui.theme.thumbColor
 import com.example.techsrcstudioc.ui.theme.unProgressColor
+import com.example.techsrcstudioc.ui.theme.unselectedBottomIcon
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -87,7 +92,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnrememberedMutableInteractionSource")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TrackComp(contentPadding: PaddingValues , trackModel: TrackViewModel) {
+fun TrackComp(contentPadding: PaddingValues, trackModel: TrackViewModel) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val screenHeight = LocalConfiguration.current.screenHeightDp
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -179,7 +184,8 @@ fun TrackComp(contentPadding: PaddingValues , trackModel: TrackViewModel) {
                         Column(
                             Modifier
                                 .fillMaxWidth()
-                                .padding(bottom = 80.dp)) {
+                                .padding(bottom = 80.dp)
+                        ) {
                             Row(
                                 Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
@@ -208,46 +214,51 @@ fun TrackComp(contentPadding: PaddingValues , trackModel: TrackViewModel) {
                                     color = lightWhiteFontColor
                                 )
 
-                                Row (Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+                                Row(
+                                    Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
                                     IconButton(
                                         modifier = Modifier
                                             .size(20.dp),
                                         onClick = {
-                                            if(trackModel.muted){
+                                            if (trackModel.muted) {
                                                 trackModel.muted = false
                                                 trackModel.voloume = 0.5f
-                                            }else{
+                                            } else {
                                                 trackModel.muted = true
                                                 trackModel.voloume = 0f
                                             }
                                         }) {
                                         Icon(
                                             modifier = Modifier.size(18.dp),
-                                            painter = painterResource(id = if(trackModel.muted) R.drawable.volume_off else R.drawable.volume_on),
+                                            painter = painterResource(id = if (trackModel.muted) R.drawable.volume_off else R.drawable.volume_on),
                                             contentDescription = null,
                                             tint = secondaryIconWhiteColor
                                         )
                                     }
                                     val interactionSource = MutableInteractionSource()
-                                    Box(contentAlignment = Alignment.Center){
-                                        Row (
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Row(
                                             Modifier
                                                 .fillMaxWidth(0.85f)
                                                 .height(1.5.dp)
                                                 .background(
                                                     unProgressColor
-                                                )){}
+                                                )
+                                        ) {}
                                         androidx.compose.material3.Slider(
-                                            modifier = Modifier.semantics { contentDescription = "Localized Description" },
+                                            modifier = Modifier.semantics {
+                                                contentDescription = "Localized Description"
+                                            },
                                             value = trackModel.voloume,
                                             onValueChange = { trackModel.voloume = it },
                                             valueRange = 0f..1f,
                                             interactionSource = interactionSource,
                                             onValueChangeFinished = {
-                                                if(trackModel.voloume == 0f){
+                                                if (trackModel.voloume == 0f) {
                                                     trackModel.muted = true
-                                                }
-                                                else{
+                                                } else {
                                                     trackModel.muted = false
                                                 }
                                             },
@@ -266,9 +277,11 @@ fun TrackComp(contentPadding: PaddingValues , trackModel: TrackViewModel) {
                                             thumb = {
                                                 androidx.compose.material3.SliderDefaults.Thumb( //androidx.compose.material3.SliderDefaults
                                                     interactionSource = interactionSource,
-                                                    thumbSize = DpSize(9.dp,9.dp),
-                                                    modifier = Modifier.offset(y=6.dp, x = 5.dp),
-                                                    colors = SliderColors(thumbColor = thumbColor,activeTrackColor = progressColor,
+                                                    thumbSize = DpSize(9.dp, 9.dp),
+                                                    modifier = Modifier.offset(y = 6.dp, x = 5.dp),
+                                                    colors = SliderColors(
+                                                        thumbColor = thumbColor,
+                                                        activeTrackColor = progressColor,
                                                         activeTickColor = Color.Transparent,
                                                         inactiveTrackColor = Color.Transparent,
                                                         inactiveTickColor = Color.Transparent,
@@ -276,7 +289,8 @@ fun TrackComp(contentPadding: PaddingValues , trackModel: TrackViewModel) {
                                                         disabledActiveTrackColor = Color.Transparent,
                                                         disabledThumbColor = Color.Transparent,
                                                         disabledActiveTickColor = Color.Transparent,
-                                                        disabledInactiveTickColor = Color.Transparent,)
+                                                        disabledInactiveTickColor = Color.Transparent,
+                                                    )
                                                 )
                                             },
 
@@ -290,6 +304,94 @@ fun TrackComp(contentPadding: PaddingValues , trackModel: TrackViewModel) {
 
 
                             PercentageSlider(trackModel)
+                            //CONTROLL play
+                            Row(
+                                Modifier
+                                    .fillMaxWidth().padding(start = 15.dp , end = 15.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                //shuffle
+                                IconButton(
+                                    modifier = Modifier
+                                        .padding(bottom = 10.dp)
+                                        .size(30.dp),
+                                    onClick = {
+                                        trackModel.shuffle = true
+                                    }) {
+                                    androidx.compose.material3.Icon(
+                                        modifier = Modifier.size(25.dp),
+                                        painter = painterResource(id = R.drawable.shuffle),
+                                        contentDescription = null,
+                                        tint = if(trackModel.shuffle) activatedBTN else Color.White
+                                    )
+                                }
+                                //previous
+                                IconButton(
+                                    modifier = Modifier
+                                        .padding(bottom = 10.dp)
+                                        .size(30.dp),
+                                    onClick = {
+
+                                    }) {
+                                    androidx.compose.material3.Icon(
+                                        modifier = Modifier.size(30.dp),
+                                        painter = painterResource(id = R.drawable.previous),
+                                        contentDescription = null,
+                                        tint = Color.White
+                                    )
+                                }
+                                //play pause
+                                IconButton(
+                                    modifier = Modifier
+                                        .padding(bottom = 10.dp),
+                                    onClick = {
+                                        trackModel.playing =!trackModel.playing
+                                    }) {
+                                    Image(
+                                        modifier = Modifier.size(70.dp),
+                                        contentScale = ContentScale.Crop,
+                                        painter = painterResource(id = if(trackModel.playing) R.drawable.pausebig else R.drawable.playbig),
+                                        contentDescription = null,
+                                    )
+                                }
+                                //next
+                                IconButton(
+                                    modifier = Modifier
+                                        .padding(bottom = 10.dp)
+                                        .size(30.dp),
+                                    onClick = {
+
+                                    }) {
+                                    androidx.compose.material3.Icon(
+                                        modifier = Modifier.size(30.dp),
+                                        painter = painterResource(id = R.drawable.next),
+                                        contentDescription = null,
+                                        tint = Color.White
+                                    )
+                                }
+
+                                //shuffle
+                                IconButton(
+                                    modifier = Modifier
+                                        .padding(bottom = 10.dp)
+                                        .size(30.dp),
+                                    onClick = {
+                                         if(trackModel.repeatNum !=3){
+                                             trackModel.repeatNum++
+                                         }else{
+                                             trackModel.repeatNum = 1
+                                         }
+
+                                    }) {
+                                    androidx.compose.material3.Icon(
+                                        modifier = Modifier.size(25.dp),
+                                        painter = painterResource(id = if(trackModel.repeatNum ==1) R.drawable.repeat_off else if(trackModel.repeatNum ==2) R.drawable.repeat_off else R.drawable.repeat_current_music),
+                                        contentDescription = null,
+                                        tint = if(trackModel.repeatNum !=1) activatedBTN else Color.White
+                                    )
+                                }
+                            }
 
                         }
                     }
@@ -314,25 +416,24 @@ fun TrackComp(contentPadding: PaddingValues , trackModel: TrackViewModel) {
     }
 
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun PercentageSlider(trackModel: TrackViewModel) {
-    // State to hold the slider value
-    var duration = 3620
-    var mins = (duration/60).toInt()
-    var seconds = (duration%60).toInt()
+
 
     val interactionSource = MutableInteractionSource()
-    Row (Modifier.fillMaxWidth()){
-        Box(contentAlignment = Alignment.Center){
-            Row (
+    Row(Modifier.fillMaxWidth()) {
+        Box(contentAlignment = Alignment.Center) {
+            Row(
                 Modifier
                     .fillMaxWidth(0.95f)
                     .height(1.5.dp)
                     .background(
                         unProgressColor
-                    )){}
+                    )
+            ) {}
             androidx.compose.material3.Slider(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -359,8 +460,8 @@ fun PercentageSlider(trackModel: TrackViewModel) {
                 thumb = {
                     androidx.compose.material3.SliderDefaults.Thumb( //androidx.compose.material3.SliderDefaults
                         interactionSource = interactionSource,
-                        thumbSize = DpSize(9.dp,9.dp),
-                        modifier = Modifier.offset(y=6.dp, x = 5.dp),
+                        thumbSize = DpSize(9.dp, 9.dp),
+                        modifier = Modifier.offset(y = 6.dp, x = 5.dp),
                         colors = SliderColors(
                             thumbColor = Color.White,
                             activeTrackColor = progressColor,
@@ -371,7 +472,8 @@ fun PercentageSlider(trackModel: TrackViewModel) {
                             disabledActiveTrackColor = Color.Transparent,
                             disabledThumbColor = Color.Transparent,
                             disabledActiveTickColor = Color.Transparent,
-                            disabledInactiveTickColor = Color.Transparent,)
+                            disabledInactiveTickColor = Color.Transparent,
+                        )
                     )
                 },
 
@@ -379,16 +481,23 @@ fun PercentageSlider(trackModel: TrackViewModel) {
 
         }
     }
-    Row (Modifier.fillMaxWidth().padding(start = 10.dp , end = 10.dp).offset(y=-18.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(start = 10.dp, end = 10.dp)
+            .offset(y = -18.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         Text(
-            text = "${calculatepassedTime(duration,trackModel)}",
+            text = "${trackModel.calculatepassedTime()}",
             fontSize = 11.sp,
             lineHeight = 16.sp,
             fontWeight = FontWeight(400),
             color = lightWhiteFontColor
         )
         Text(
-            text = "$mins:$seconds",
+            text = "${trackModel.mins}:${trackModel.seconds}",
             fontSize = 11.sp,
             lineHeight = 16.5.sp,
             fontWeight = FontWeight(400),
@@ -396,20 +505,15 @@ fun PercentageSlider(trackModel: TrackViewModel) {
         )
     }
 
+    Row(
+        Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+
+
+    }
+
 
 }
-fun calculatepassedTime(duration:Int , trackModel: TrackViewModel):String{
-    // Ensure trackListened is within the valid range (0.0 to 1.0)
-    val trackListenedPercentage = trackModel.trackListened.coerceIn(0.0f, 1.0f)
 
-    // Calculate the passed time in milliseconds
-    val passedTimeMillis = (trackListenedPercentage * duration).toInt()
-
-    // Convert the passed time into minutes and seconds
-    val mins = (passedTimeMillis / 60).toInt()
-    val seconds = (passedTimeMillis % 60).toInt()
-
-    // Return formatted time as "minutes:seconds"
-    return String.format("%d:%02d", mins, seconds)
-
-}

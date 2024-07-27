@@ -48,6 +48,7 @@ class MainActivity : ComponentActivity() {
     //dependency for permission + handle if not granted
     val TAG = "MainActivity -->"
     private val clientId = "36ec84b682f44b089afb62e40fd0e693"
+    //private val redirectUri = "http://192.168.1.103:3000/api/auth/spotify/callback"
     private val redirectUri = "http://192.168.1.103:3000"
 
     private var spotifyAppRemote: SpotifyAppRemote? = null

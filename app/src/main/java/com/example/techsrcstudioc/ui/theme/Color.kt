@@ -30,5 +30,6 @@ val secondaryIconWhiteColor = Color(0xFFE8EAED)
 val thumbColor = Color(0xFF1ED760)
 val progressColor = Color(0xFFFFFFFF)
 val unProgressColor = Color(0x4DFFFFFF)
+val activatedBTN = Color(0xFF1ED760)
 
 
