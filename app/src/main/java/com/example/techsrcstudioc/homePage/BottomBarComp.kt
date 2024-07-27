@@ -125,6 +125,12 @@ fun BottomBarComp(
                             IconButton(
                                 onClick = {
                                     trackModel.playing = !trackModel.playing
+                                    if(trackModel.playing){
+                                        trackModel.resume()
+                                    }
+                                    else{
+                                        trackModel.stop()
+                                    }
                                 }) {
                                 Icon(
                                     modifier = Modifier

@@ -48,10 +48,16 @@ class MainActivity : ComponentActivity() {
     //dependency for permission + handle if not granted
     val TAG = "MainActivity -->"
     private val clientId = "36ec84b682f44b089afb62e40fd0e693"
-    //private val redirectUri = "http://192.168.1.103:3000/api/auth/spotify/callback"
-    private val redirectUri = "http://192.168.1.103:3000"
+    private val redirectUri = "http://192.168.1.103:3000/api/auth/spotify/callback"//correct one
+    //private val redirectUri = "http://192.168.1.103:3000"
 
     private var spotifyAppRemote: SpotifyAppRemote? = null
+    private lateinit var mainVM: MainViewModel
+    private lateinit var gerenalVM: GeneralViewModel
+    private lateinit var lsVM: LoginLogoutViewModel
+    private lateinit var searchVM: SearchViewModel
+    private lateinit var trackVM: TrackViewModel
+
     val requestPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -73,11 +79,11 @@ class MainActivity : ComponentActivity() {
         var context = this
         val repo = Repository()
 
-        val mainVM = MainViewModel(repo)
-        val gerenalVM = GeneralViewModel(requestPermissionsLauncher, context)
-        val lsVM = LoginLogoutViewModel(context)
-        val searchVM = SearchViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM)
-        val trackVM = TrackViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM)
+        mainVM = MainViewModel(repo)
+        gerenalVM = GeneralViewModel(requestPermissionsLauncher, context)
+        lsVM = LoginLogoutViewModel(context)
+        searchVM = SearchViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM)
+        trackVM = TrackViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM, spotifyAppRemote = spotifyAppRemote)
 
         //enableEdgeToEdge()
         //permissions function
@@ -179,27 +185,18 @@ class MainActivity : ComponentActivity() {
         SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
             override fun onConnected(appRemote: SpotifyAppRemote) {
                 spotifyAppRemote = appRemote
-                Log.d("MainActivity", "Connected to Spotify Remote SDK!")
+                Log.d("spotify", "Connected to Spotify Remote SDK!")
                 // You can start using the remote app API
-                connected()
+                trackVM.spotifyAppRemoteInner = spotifyAppRemote
             }
 
             override fun onFailure(throwable: Throwable) {
-                Log.e("MainActivity", throwable.message, throwable)
+                Log.e("spotify", throwable.message, throwable)
             }
         })
     }
 
-    private fun connected() {
-        spotifyAppRemote?.let {
-            val playlistURI = "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL"
-            it.playerApi.play(playlistURI)
-            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
-                val track: Track = playerState.track
-                Log.d("MainActivity", "${track.name} by ${track.artist.name}")
-            }
-        }
-    }
+
 
     override fun onStop() {
         super.onStop()

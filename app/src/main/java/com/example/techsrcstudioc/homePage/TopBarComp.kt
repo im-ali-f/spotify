@@ -19,13 +19,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
+import com.example.techsrcstudioc.Data.VMs.TrackViewModel
 import com.example.techsrcstudioc.R
 
 @Composable
 fun TopBarComp(
     navController: NavController,
     generalModel: GeneralViewModel,
-    lsModel: LoginLogoutViewModel
+    lsModel: LoginLogoutViewModel,
+    trackModel:TrackViewModel
 ) {
     Row(
         Modifier.fillMaxWidth().padding(start = 17.dp, end = 10.dp, top = 22.dp, bottom = 22.dp),
@@ -43,6 +45,7 @@ fun TopBarComp(
             modifier = Modifier.size(40.dp),
             onClick = {
                 //todo log out
+                //trackModel.play()
             }) {
             Icon(
                 modifier = Modifier.size(33.dp),

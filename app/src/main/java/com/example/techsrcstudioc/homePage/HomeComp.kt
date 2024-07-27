@@ -126,7 +126,7 @@ fun HomeComp(
 
     Scaffold(
         topBar = {
-            TopBarComp(navController = navController, generalModel = generalModel , lsModel = lsModel )
+            TopBarComp(navController = navController, generalModel = generalModel , lsModel = lsModel , trackModel = trackModel )
         },
         bottomBar = {
             BottomBarComp(navController = innerNavState, generalModel = generalModel, searchModel = searchModel, trackModel = trackModel )
@@ -385,6 +385,12 @@ fun HomeComp(
                                             .padding(bottom = 10.dp),
                                         onClick = {
                                             trackModel.playing =!trackModel.playing
+                                            if(trackModel.playing){
+                                                trackModel.resume()
+                                            }
+                                            else{
+                                                trackModel.stop()
+                                            }
                                         }) {
                                         Image(
                                             modifier = Modifier.size(70.dp),

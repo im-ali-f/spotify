@@ -1,6 +1,7 @@
 package com.example.techsrcstudioc.Data.VMs
 
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,13 +13,16 @@ import com.example.techsrcstudioc.Data.Models.searchModel.ArtistX
 import com.example.techsrcstudioc.Data.Models.searchModel.ExternalIds
 import com.example.techsrcstudioc.Data.Models.searchModel.ExternalUrlsXXX
 import com.example.techsrcstudioc.Data.Models.searchModel.Item
+import com.spotify.android.appremote.api.SpotifyAppRemote
+import com.spotify.protocol.types.Track
 
 class TrackViewModel(
     var mainViewModel: MainViewModel,
     var gerenalModel: GeneralViewModel,
     var owner: LifecycleOwner,
+    var spotifyAppRemote:SpotifyAppRemote?
 ) : ViewModel() {
-
+    var spotifyAppRemoteInner = spotifyAppRemote
     var showBottomSheet by mutableStateOf(false)
 
 
@@ -99,5 +103,41 @@ class TrackViewModel(
             artistToReturn += it.name
         }
         return artistToReturn
+    }
+
+    fun play() {
+        spotifyAppRemoteInner?.let {
+            //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
+            val playlistURI = selectedTrack.uri
+            it.playerApi.play(playlistURI)
+            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+                val track: Track = playerState.track
+                Log.d("MainActivity", "${track.name} by ${track.artist.name}")
+            }
+        }
+    }
+
+    fun stop() {
+        spotifyAppRemoteInner?.let {
+            //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
+            val playlistURI = selectedTrack.uri
+            it.playerApi.pause()
+            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+                val track: Track = playerState.track
+                Log.d("MainActivity", "${track.name} by ${track.artist.name}")
+            }
+        }
+    }
+
+    fun resume() {
+        spotifyAppRemoteInner?.let {
+            //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
+            val playlistURI = selectedTrack.uri
+            it.playerApi.resume()
+            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+                val track: Track = playerState.track
+                Log.d("MainActivity", "${track.name} by ${track.artist.name}")
+            }
+        }
     }
 }

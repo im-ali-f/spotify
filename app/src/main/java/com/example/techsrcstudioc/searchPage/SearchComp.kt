@@ -68,6 +68,8 @@ fun SharedTransitionScope.SearchComp(
                                 indication = rememberRipple(color = Color.LightGray)
                             ) {
                                 trackModel.selectedTrack = item
+                                trackModel.play()
+                                trackModel.playing = true
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
