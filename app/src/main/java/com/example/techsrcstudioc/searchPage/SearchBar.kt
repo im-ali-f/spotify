@@ -36,6 +36,7 @@ import androidx.navigation.NavController
 import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.SearchViewModel
 import com.example.techsrcstudioc.ui.theme.mainFontColor
+import com.example.techsrcstudioc.ui.theme.poppins
 import com.example.techsrcstudioc.ui.theme.searchIconColor
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +55,7 @@ fun SearchBar(
         },
         singleLine = true,
         maxLines = 1,
-        textStyle = TextStyle(fontSize = 17.sp, lineHeight = 30.sp, fontWeight = FontWeight(500), color = mainFontColor),
+        textStyle = TextStyle(fontSize = 17.sp, fontFamily = poppins ,lineHeight = 30.sp, fontWeight = FontWeight(500), color = mainFontColor),
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp , end = 16.dp)
@@ -80,7 +81,7 @@ fun SearchBar(
             placeholder = {
                 Text(
                     text = "Search here",
-                    fontWeight = FontWeight(500),
+                    fontWeight = FontWeight(500), fontFamily = poppins,
                     fontSize = 14.sp,
                     color =  mainFontColor
                 )

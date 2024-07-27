@@ -43,6 +43,7 @@ import com.example.techsrcstudioc.Data.VMs.TrackViewModel
 import com.example.techsrcstudioc.R
 import com.example.techsrcstudioc.addons.shimmerEffect
 import com.example.techsrcstudioc.ui.theme.lightWhiteFontColor
+import com.example.techsrcstudioc.ui.theme.poppins
 import com.example.techsrcstudioc.ui.theme.progressColor
 import com.example.techsrcstudioc.ui.theme.searchIconColor
 import com.example.techsrcstudioc.ui.theme.selectedBottomIcon
@@ -108,14 +109,14 @@ fun BottomBarComp(
                                     .padding(start = 14.dp)
                             ) {
                                 Text(
-                                    text = "${trackModel.selectedTrack.name}",
+                                    text = "${trackModel.selectedTrack.name}", fontFamily = poppins,
                                     fontSize = 15.sp,
                                     lineHeight = 21.sp,
                                     fontWeight = FontWeight(400),
                                     color = Color.White
                                 )
                                 Text(
-                                    text = searchModel.getArtistString(trackModel.selectedTrack.artists),
+                                    text = searchModel.getArtistString(trackModel.selectedTrack.artists), fontFamily = poppins,
                                     fontSize = 12.sp,
                                     lineHeight = 16.sp,
                                     fontWeight = FontWeight(400),

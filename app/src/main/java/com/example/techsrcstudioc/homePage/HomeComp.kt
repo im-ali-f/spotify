@@ -96,6 +96,7 @@ import com.example.techsrcstudioc.historyPage.HistoryComp
 import com.example.techsrcstudioc.ui.theme.activatedBTN
 
 import com.example.techsrcstudioc.ui.theme.lightWhiteFontColor
+import com.example.techsrcstudioc.ui.theme.poppins
 import com.example.techsrcstudioc.ui.theme.progressColor
 import com.example.techsrcstudioc.ui.theme.secondaryIconWhiteColor
 import com.example.techsrcstudioc.ui.theme.selectedBottomIcon
@@ -213,14 +214,14 @@ fun HomeComp(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Text(
-                                        text = "PLAYING FROM SEARCH",
+                                        text = "PLAYING FROM SEARCH", fontFamily = poppins,
                                         fontSize = 9.sp,
                                         lineHeight = 13.5.sp,
                                         fontWeight = FontWeight(400),
                                         color = Color.White
                                     )
                                     Text(
-                                        text = "${trackModel.selectedTrack.name}",
+                                        text = "${trackModel.selectedTrack.name}", fontFamily = poppins,
                                         fontSize = 11.sp,
                                         lineHeight = 16.5.sp,
                                         fontWeight = FontWeight(400),
@@ -241,7 +242,7 @@ fun HomeComp(
                                     horizontalArrangement = Arrangement.Start
                                 ) {
                                     Text(
-                                        text = "${trackModel.selectedTrack.name}",
+                                        text = "${trackModel.selectedTrack.name}", fontFamily = poppins,
                                         fontSize = 17.sp,
                                         lineHeight = 25.sp,
                                         fontWeight = FontWeight(400),
@@ -255,7 +256,7 @@ fun HomeComp(
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth(0.6f),
+                                        modifier = Modifier.fillMaxWidth(0.6f), fontFamily = poppins,
                                         text = "${trackModel.getArtistString(trackModel.selectedTrack.artists)}",
                                         fontSize = 14.sp,
                                         lineHeight = 21.sp,
@@ -582,14 +583,14 @@ fun PercentageSlider(trackModel: TrackViewModel) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "${trackModel.calculatepassedTime()}",
+            text = "${trackModel.calculatepassedTime()}", fontFamily = poppins,
             fontSize = 11.sp,
             lineHeight = 16.sp,
             fontWeight = FontWeight(400),
             color = lightWhiteFontColor
         )
         Text(
-            text = "${trackModel.totalTime}",
+            text = "${trackModel.totalTime}", fontFamily = poppins,
             fontSize = 11.sp,
             lineHeight = 16.5.sp,
             fontWeight = FontWeight(400),

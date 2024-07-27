@@ -39,6 +39,7 @@ import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.Data.VMs.SearchViewModel
 import com.example.techsrcstudioc.Data.VMs.TrackViewModel
 import com.example.techsrcstudioc.ui.theme.lightWhiteFontColor
+import com.example.techsrcstudioc.ui.theme.poppins
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -92,14 +93,14 @@ fun SharedTransitionScope.SearchComp(
                                 .padding(start = 14.dp)
                         ) {
                             Text(
-                                text = "${item.name}",
+                                text = "${item.name}", fontFamily = poppins,
                                 fontSize = 15.sp,
                                 lineHeight = 21.sp,
                                 fontWeight = FontWeight(400),
                                 color = Color.White
                             )
                             Text(
-                                text = searchModel.getArtistString(item.artists),
+                                text = searchModel.getArtistString(item.artists), fontFamily = poppins,
                                 fontSize = 12.sp,
                                 lineHeight = 16.sp,
                                 fontWeight = FontWeight(400),

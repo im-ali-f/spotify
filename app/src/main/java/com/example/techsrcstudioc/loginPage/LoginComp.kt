@@ -32,6 +32,7 @@ import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.R
 import com.example.techsrcstudioc.ui.theme.mainBGC
+import com.example.techsrcstudioc.ui.theme.poppins
 import com.example.techsrcstudioc.ui.theme.spotifyIconColor
 import com.example.techsrcstudioc.ui.theme.unclickedBTNColor
 
@@ -75,7 +76,7 @@ fun LoginComp(
                 )
             ) {
                 Text(
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Center, fontFamily = poppins,
                     text = "Log In",
                     color = Color.White,
                     fontSize = 18.sp,

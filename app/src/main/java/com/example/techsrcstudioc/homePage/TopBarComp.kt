@@ -33,6 +33,7 @@ import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.Data.VMs.TrackViewModel
 import com.example.techsrcstudioc.R
 import com.example.techsrcstudioc.ui.theme.logOutButton
+import com.example.techsrcstudioc.ui.theme.poppins
 
 @Composable
 fun TopBarComp(
@@ -51,7 +52,7 @@ fun TopBarComp(
         ) {
             Text(
                 text = if(generalModel.selectedBottomBar ==1)"Search" else "history",//todo dynamic it
-                fontSize = 20.sp,
+                fontSize = 20.sp, fontFamily = poppins,
                 fontWeight = FontWeight(400),
                 color = Color.White
             )
@@ -88,7 +89,7 @@ fun TopBarComp(
                 ) {
                     Text(
                         textAlign = TextAlign.Center,
-                        text = "Log Out",
+                        text = "Log Out", fontFamily = poppins,
                         color = Color.White,
                         fontSize = 18.sp,
                         fontWeight = FontWeight(600)

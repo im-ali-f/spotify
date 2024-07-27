@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.techsrcstudioc.R
 import com.example.techsrcstudioc.ui.theme.errorAlertColor
+import com.example.techsrcstudioc.ui.theme.poppins
 import com.example.techsrcstudioc.ui.theme.successAlertColor
 import com.example.techsrcstudioc.ui.theme.warningAlertColor
 
@@ -145,7 +146,7 @@ fun AlertComp(selectedAlert: MutableState<String>) {
 
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = alert["text"] as String,
+                                    text = alert["text"] as String, fontFamily = poppins,
                                     fontWeight = FontWeight(600),
                                     fontSize = 12.sp,
                                     color = Color.White,
