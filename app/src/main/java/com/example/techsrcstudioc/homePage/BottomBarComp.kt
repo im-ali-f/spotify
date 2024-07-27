@@ -180,7 +180,7 @@ fun BottomBarComp(
                     .size(50.dp),
                 onClick = {
                     generalModel.selectedBottomBar = 2
-
+                    navController.navigate("trackPart")
                 }) {
                 Icon(
                     modifier = Modifier.size(50.dp),

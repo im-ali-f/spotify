@@ -18,6 +18,7 @@ import com.example.techsrcstudioc.Data.VMs.GeneralViewModel
 import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.Data.VMs.SearchViewModel
 import com.example.techsrcstudioc.Data.VMs.TrackViewModel
+import com.example.techsrcstudioc.TrackComp.TrackComp
 import com.example.techsrcstudioc.searchPage.SearchBar
 import com.example.techsrcstudioc.searchPage.SearchComp
 import com.example.techsrcstudioc.ui.theme.mainBGC
@@ -34,6 +35,7 @@ fun HomeComp(
 ) {
     val innerNavState = rememberNavController()
     //better in mainactivity
+
     Scaffold(
         topBar = {
             TopBarComp(navController = navController, generalModel = generalModel , lsModel = lsModel )
@@ -47,16 +49,16 @@ fun HomeComp(
         backgroundColor = mainBGC
 
     ) {
-
+        contentPadding->
 
         SharedTransitionLayout {
-            NavHost(navController = innerNavState, startDestination = "searchPart") {
+            NavHost(navController = innerNavState, startDestination = "trackPart") {
 
                 composable("searchPart") {
                     SearchComp(navController = navController, generalModel = generalModel, searchModel =searchModel, trackModel )
                 }
                 composable("trackPart") {
-
+                    TrackComp(contentPadding , trackModel = trackModel)
                 }
 
 

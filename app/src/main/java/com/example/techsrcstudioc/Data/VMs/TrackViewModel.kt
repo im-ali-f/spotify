@@ -54,6 +54,9 @@ class TrackViewModel(
 
         )
     )
-    
+
+    var muted by mutableStateOf(false)
+    var voloume by mutableStateOf(0.5f)
+    var trackListened by mutableStateOf(0.1f)
 
 }

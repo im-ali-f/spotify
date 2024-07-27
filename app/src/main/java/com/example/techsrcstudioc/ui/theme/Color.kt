@@ -25,3 +25,10 @@ val lightWhiteFontColor = Color(0xB3FFFFFF)
 val unselectedBottomIcon = Color(0xFFACACAC)
 val selectedBottomIcon = Color(0xFFFFFFFF)
 
+
+val secondaryIconWhiteColor = Color(0xFFE8EAED)
+val thumbColor = Color(0xFF1ED760)
+val progressColor = Color(0xFFFFFFFF)
+val unProgressColor = Color(0x4DFFFFFF)
+
+
