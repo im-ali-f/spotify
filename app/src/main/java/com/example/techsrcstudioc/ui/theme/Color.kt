@@ -24,6 +24,8 @@ val lightWhiteFontColor = Color(0xB3FFFFFF)
 //bottom bar
 val unselectedBottomIcon = Color(0xFFACACAC)
 val selectedBottomIcon = Color(0xFFFFFFFF)
+//topbar
+val logOutButton = Color(0xFF384656)
 
 
 val secondaryIconWhiteColor = Color(0xFFE8EAED)

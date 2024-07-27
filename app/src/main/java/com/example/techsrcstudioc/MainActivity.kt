@@ -115,8 +115,8 @@ class MainActivity : ComponentActivity() {
                             route = "DoNotUseThisRoute",
                             deepLinks = listOf(
                                 navDeepLink {
-                                    uriPattern =
-                                        "http://192.168.1.103:3000/api/auth/spotify/callback#access_token={token}&token_type={type}&expires_in={expire}"
+                                    //uriPattern = "http://192.168.1.103:3000/api/auth/spotify/callback#access_token={token}&token_type={type}&expires_in={expire}"
+                                    uriPattern = "https://cup-apis.javatime.ir/#access_token={token}&token_type={type}&expires_in={expire}"
                                     action = Intent.ACTION_VIEW
                                 }
                             ),

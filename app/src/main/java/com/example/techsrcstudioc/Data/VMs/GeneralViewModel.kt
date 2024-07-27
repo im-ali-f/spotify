@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import java.util.Base64
 import kotlin.math.exp
 
@@ -102,5 +103,10 @@ class GeneralViewModel(
 
     //home page
     var selectedBottomBar by mutableStateOf(1)
+    var showLogout by mutableStateOf(false)
+    fun logoutFunctionallity(navController:NavController){
+        clearData("token")
+        navController.navigate("loginPage")
+    }
 
 }
