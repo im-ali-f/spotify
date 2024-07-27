@@ -3,10 +3,12 @@ package com.example.techsrcstudioc.Data.VMs
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.example.techsrcstudioc.Data.Models.searchModel.Album
+import com.example.techsrcstudioc.Data.Models.searchModel.ArtistX
 import com.example.techsrcstudioc.Data.Models.searchModel.ExternalIds
 import com.example.techsrcstudioc.Data.Models.searchModel.ExternalUrlsXXX
 import com.example.techsrcstudioc.Data.Models.searchModel.Item
@@ -16,6 +18,9 @@ class TrackViewModel(
     var gerenalModel: GeneralViewModel,
     var owner: LifecycleOwner,
 ) : ViewModel() {
+
+    var showBottomSheet by mutableStateOf(false)
+
 
     var selectedTrack by mutableStateOf(
         Item(
@@ -85,4 +90,14 @@ class TrackViewModel(
 
     }
 
+    fun getArtistString(artistsList: List<ArtistX>): String {
+        var artistToReturn = ""
+        artistsList.forEach {
+            if (artistToReturn != "") {
+                artistToReturn += ","
+            }
+            artistToReturn += it.name
+        }
+        return artistToReturn
+    }
 }

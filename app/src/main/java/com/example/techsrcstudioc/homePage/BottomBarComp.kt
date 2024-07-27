@@ -69,7 +69,7 @@ fun BottomBarComp(
                                 interactionSource = remember { MutableInteractionSource() },
                                 indication = rememberRipple(color = Color.LightGray)
                             ) {
-                                //todo open this music
+                                trackModel.showBottomSheet = true
                             },
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -180,7 +180,7 @@ fun BottomBarComp(
                     .size(50.dp),
                 onClick = {
                     generalModel.selectedBottomBar = 2
-                    navController.navigate("trackPart")
+                    navController.navigate("historyPart")
                 }) {
                 Icon(
                     modifier = Modifier.size(50.dp),

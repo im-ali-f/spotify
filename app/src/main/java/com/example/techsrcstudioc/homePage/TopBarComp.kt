@@ -33,7 +33,7 @@ fun TopBarComp(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            text = "Search",//todo dynamic it
+            text = if(generalModel.selectedBottomBar ==1)"Search" else "history",//todo dynamic it
             fontSize = 20.sp,
             fontWeight = FontWeight(400),
             color = Color.White
@@ -42,7 +42,7 @@ fun TopBarComp(
         IconButton(
             modifier = Modifier.size(40.dp),
             onClick = {
-                //todo
+                //todo log out
             }) {
             Icon(
                 modifier = Modifier.size(33.dp),
