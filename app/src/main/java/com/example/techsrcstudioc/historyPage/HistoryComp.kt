@@ -61,6 +61,7 @@ fun SharedTransitionScope.HistoryComp(
                 Spacer(modifier = Modifier.height(8.dp))
             }
             items(historyModel.foundedItems) { item ->
+
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -70,7 +71,7 @@ fun SharedTransitionScope.HistoryComp(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = rememberRipple(color = Color.LightGray)
                         ) {
-                            trackModel.selectedTrack = item
+                            trackModel.selectedTrack = item.track
                             trackModel.play()
                             trackModel.playing = true
                         },
@@ -83,7 +84,7 @@ fun SharedTransitionScope.HistoryComp(
                     ) {
                         AsyncImage(
                             modifier = Modifier.fillMaxSize(),
-                            model = item.album.images[2].url,
+                            model = item.track.album.images[2].url,
                             contentDescription = "Image of track",
                             contentScale = ContentScale.Crop
                         )
@@ -95,14 +96,14 @@ fun SharedTransitionScope.HistoryComp(
                             .padding(start = 14.dp)
                     ) {
                         Text(
-                            text = "${item.name}",
+                            text = "${item.track.name}",
                             fontSize = 15.sp,
                             lineHeight = 21.sp,
                             fontWeight = FontWeight(400),
                             color = Color.White
                         )
                         Text(
-                            text = searchModel.getArtistString(item.artists),
+                            text = searchModel.getArtistString(item.track.artists),
                             fontSize = 12.sp,
                             lineHeight = 16.sp,
                             fontWeight = FontWeight(400),
@@ -117,8 +118,8 @@ fun SharedTransitionScope.HistoryComp(
             item {
 
                 LaunchedEffect(true) {
-                    if(searchModel.foundedItems.isNotEmpty()){
-                        searchModel.ContinueGetSearchedItemsFunctionallity()
+                    if(historyModel.foundedItems.isNotEmpty()){
+                        historyModel.ContinueGetHistoryItemsFunctionallity()
                     }
 
                 }

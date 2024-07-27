@@ -46,7 +46,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     }
 
     var viewModelGetHistoryResponse: MutableLiveData<Response<HistoryResponse>> = MutableLiveData()
-    fun GetHistoryItems(tokenUser:String , after :Int,limit:Int) {
+    fun GetHistoryItems(tokenUser:String , after :String,limit:Int) {
         viewModelScope.launch { //kotlin coroutines
             try {
                 val response: Response<HistoryResponse> = repository.GetHistoryItems(tokenUser = tokenUser, after = after, limit = limit)

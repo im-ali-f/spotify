@@ -2,6 +2,7 @@ package com.example.techsrcstudioc.Data.VMs
 
 
 import android.util.Log
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -102,8 +103,11 @@ class TrackViewModel(
 
     fun seekSlider(){
         viewModelScope.launch {
+            /*
             passedTimeMillisGlobal =1
             trackListened = 0.0f
+
+             */
             while (true){
                 Log.d("seek slider", "seekSlider: $passedTimeMillisGlobal")
                 delay(1000)
@@ -173,7 +177,7 @@ class TrackViewModel(
     }
 
     fun play() {
-        seekSlider()
+
         spotifyAppRemoteInner?.let {
             //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
             val playlistURI = selectedTrack.uri
@@ -183,7 +187,9 @@ class TrackViewModel(
                 viewModelScope.launch {
                     delay(2000)
                     GetCurrentPlaying()
+
                 }
+
 
                 Log.d("play", "${track.name} by ${track.artist.name}")
                 Log.d("play", "${track}")

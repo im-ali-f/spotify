@@ -33,7 +33,7 @@ interface SpotifyAPI {
 
     @GET("v1/me/player/recently-played")
     suspend fun GetHistoryItems(
-        @Query("after") after: Int,
+        @Query("after") after: String,
         @Query("limit") limit: Int,
         @Header("Authorization") tokenUser: String
     ):Response<HistoryResponse>

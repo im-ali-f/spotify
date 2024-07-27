@@ -154,6 +154,14 @@ fun HomeComp(
                 .fillMaxSize()
                 .padding(contentPadding),
         ) { contentPaddingInner ->
+            LaunchedEffect(trackModel.selectedTrack) {
+                trackModel.passedTimeMillisGlobal =1
+                trackModel.trackListened = 0.0f
+            }
+            LaunchedEffect(Unit) {
+                trackModel.seekSlider()
+            }
+
             if (trackModel.showBottomSheet) {
                 ModalBottomSheet(
                     dragHandle = {},
@@ -517,10 +525,7 @@ fun PercentageSlider(trackModel: TrackViewModel) {
                         unProgressColor
                     )
             ) {}
-            LaunchedEffect(trackModel.selectedTrack) {
-                trackModel.passedTimeMillisGlobal =1
-                trackModel.trackListened = 0.0f
-            }
+
             androidx.compose.material3.Slider(
                 modifier = Modifier
                     .fillMaxWidth()

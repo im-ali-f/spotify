@@ -20,7 +20,7 @@ class Repository {
         return RetrofitInstance.api.GetCurrentlyTrack(tokenUser = tokenUser )
     }
 
-    suspend fun GetHistoryItems(tokenUser :String , after:Int, limit:Int  ): Response<HistoryResponse> {
+    suspend fun GetHistoryItems(tokenUser :String , after:String, limit:Int  ): Response<HistoryResponse> {
 
         return RetrofitInstance.api.GetHistoryItems(tokenUser = tokenUser, after = after, limit = limit)
     }

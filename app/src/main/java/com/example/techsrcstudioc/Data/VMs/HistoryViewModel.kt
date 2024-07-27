@@ -18,7 +18,7 @@ class HistoryViewModel(
     var owner: LifecycleOwner,
 ) : ViewModel() {
     var TAG = "HistoryViewModel"
-    var after by mutableStateOf(0)
+    var after by mutableStateOf("1484811083508")
     var foundedItems by mutableStateOf(listOf<Item>())
     var getNextSearch = ""
 
@@ -33,7 +33,11 @@ class HistoryViewModel(
 
                     //foundedItems = foundedItems + response.body()!!.tracks.items
                     foundedItems = response.body()!!.items
-                    getNextSearch = response.body()!!.next
+                    if(response.body()!!.next != null){
+                        getNextSearch = response.body()!!.next
+                    }
+
+
                     Log.d(TAG, "GetHistoryItemsFunctionallity: $getNextSearch")
 
 
@@ -51,45 +55,42 @@ class HistoryViewModel(
 
     //todo fix it
     fun ContinueGetHistoryItemsFunctionallity() {
+        var list1 = getNextSearch.split("=")
+        var list2 = list1.get(1).split("&")
+        var after = list2[0]
+        Log.d(TAG, "ContinueGetHistoryItemsFunctionallity: $after")
 
-            /*
-            var list1 = getNextSearch.split("=")
-            var limit = list1.get(list1.lastIndex)
-            var list2 = list1.get(4).split("&")
-            var offset = list2[0]
-            Log.d(TAG, "limit: ${limit}")
-            Log.d(TAG, "offset: ${offset}")
 
-             */
 
-        /*
+
             val tokenToSend = "Bearer " + gerenalModel.getData("token", "")
-            mainViewModel.GetSearchedItems(
+            mainViewModel.GetHistoryItems(
                 "$tokenToSend",
-                enteredSearch,
-                limit.toInt(),
-                offset.toInt()
+                after = after,
+                limit = 10
             )
-            mainViewModel.viewModelGetSearchedResponse.observe(owner, Observer { response ->
+            mainViewModel.viewModelGetHistoryResponse.observe(owner, Observer { response ->
                 if (response.isSuccessful) {
 
-                    Log.d("GetSearchedItems --> success", response.body().toString())
+                    Log.d("ContinueGetHistoryItemsFunctionallity --> success", response.body().toString())
 
                     //foundedItems = foundedItems + response.body()!!.tracks.items
-                    foundedItems = foundedItems + response.body()!!.tracks.items
-                    getNextSearch = response.body()!!.tracks.next
-                    Log.d(TAG, "GetSearchedItemsFunctionallity: $getNextSearch")
+                    foundedItems = foundedItems + response.body()!!.items
+                    if(response.body()!!.next != null){
+                        getNextSearch = response.body()!!.next
+                    }
+                    Log.d(TAG, "ContinueGetHistoryItemsFunctionallity: $getNextSearch")
 
 
-                    mainViewModel.viewModelGetSearchedResponse = MutableLiveData()
+                    mainViewModel.viewModelGetHistoryResponse = MutableLiveData()
 
                 } else {
-                    Log.d("GetSearchedItems --> error", response.errorBody()?.string() as String)
+                    Log.d("ContinueGetHistoryItemsFunctionallity --> error", response.errorBody()?.string() as String)
 
                 }
             })
 
-         */
+
 
     }
 
