@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.techsrcstudioc.Data.Models.searchModel.Album
 import com.example.techsrcstudioc.Data.Models.searchModel.ArtistX
 import com.example.techsrcstudioc.Data.Models.searchModel.ExternalIds
@@ -17,6 +18,8 @@ import com.example.techsrcstudioc.Data.Models.searchModel.ExternalUrlsXXX
 import com.example.techsrcstudioc.Data.Models.searchModel.Item
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.spotify.protocol.types.Track
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class TrackViewModel(
     var mainViewModel: MainViewModel,
@@ -76,9 +79,8 @@ class TrackViewModel(
     var voloume by mutableStateOf(0.5f)
     var trackListened by mutableStateOf(0.1f)
 
-    var duration by mutableStateOf( 3620)
-    var mins by mutableStateOf(duration / 60)
-    var seconds by mutableStateOf(duration % 60)
+    var duration by mutableStateOf( 1)
+    var totalTime by mutableStateOf("")
 
     fun calculatepassedTime(): String {
         // Ensure trackListened is within the valid range (0.0 to 1.0)
@@ -88,8 +90,8 @@ class TrackViewModel(
         val passedTimeMillis = (trackListenedPercentage * duration).toInt()
 
         // Convert the passed time into minutes and seconds
-        val mins = (passedTimeMillis / 60).toInt()
-        val seconds = (passedTimeMillis % 60).toInt()
+        val mins = (passedTimeMillis / 6000)
+        val seconds = (passedTimeMillis % 6000)/1000
 
         // Return formatted time as "minutes:seconds"
         return String.format("%d:%02d", mins, seconds)
@@ -115,41 +117,15 @@ class TrackViewModel(
 
                 Log.d("GetCurrentPlaying --> success", response.body().toString())
                 response.body()?.let {
-                    selectedTrack = Item(
-                        track_number = it.item.track_number,
-                        artists = it.item.artists,
-                        name = "",
-                        id = "",
-                        album = Album(
-                            id = "",
-                            artists = listOf(),
-                            available_markets = listOf(),
-                            external_urls = ExternalUrlsXXX(""),
-                            href = "",
-                            images = listOf(),
-                            name = "",
-                            release_date = "",
-                            release_date_precision = "",
-                            total_tracks = 0,
-                            type = "",
-                            uri = "",
-                            album_type = ""
-                        ),
-                        disc_number = 0,
-                        duration_ms = 0,
-                        explicit = false,
-                        external_ids = ExternalIds(""),
-                        external_urls = ExternalUrlsXXX(""),
-                        href = "",
-                        is_local = false,
-                        popularity = 0,
-                        preview_url = "",
-                        type = "",
-                        uri = "",
-                        available_markets = listOf()
+                    selectedTrack = response.body()!!.item
+                    playing = response.body()!!.is_playing
+                    duration = response.body()!!.item.duration_ms
+                    calculatepassedTime()
+                    val minutes = (duration / 60000)
+                    val seconds = (duration % 60000) / 1000
+                    totalTime = String.format("%d:%02d", minutes, seconds)
 
 
-                    )
                 }
 
 
@@ -169,7 +145,11 @@ class TrackViewModel(
             it.playerApi.play(playlistURI)
             it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
                 val track: Track = playerState.track
-                GetCurrentPlaying()
+                viewModelScope.launch {
+                    delay(2000)
+                    GetCurrentPlaying()
+                }
+
                 Log.d("play", "${track.name} by ${track.artist.name}")
                 Log.d("play", "${track}")
             }

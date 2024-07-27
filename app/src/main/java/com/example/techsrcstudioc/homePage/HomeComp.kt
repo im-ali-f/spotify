@@ -570,7 +570,7 @@ fun PercentageSlider(trackModel: TrackViewModel) {
             color = lightWhiteFontColor
         )
         Text(
-            text = "${trackModel.mins}:${trackModel.seconds}",
+            text = "${trackModel.totalTime}",
             fontSize = 11.sp,
             lineHeight = 16.5.sp,
             fontWeight = FontWeight(400),

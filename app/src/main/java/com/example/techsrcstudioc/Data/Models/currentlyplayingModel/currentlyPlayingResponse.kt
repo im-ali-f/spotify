@@ -1,5 +1,7 @@
 package com.example.techsrcstudioc.Data.Models.currentlyplayingModel
 
+import com.example.techsrcstudioc.Data.Models.searchModel.Item
+
 data class currentlyPlayingResponse(
     val actions: Actions,
     val context: Any,
