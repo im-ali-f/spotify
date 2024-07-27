@@ -34,4 +34,11 @@ val progressColor = Color(0xFFFFFFFF)
 val unProgressColor = Color(0x4DFFFFFF)
 val activatedBTN = Color(0xFF1ED760)
 
+    //alert
+
+val successAlertColor= Color(0xFF10B37E)
+val warningAlertColor= Color(0xFFFBBC05)
+val errorAlertColor= Color(0xFFF27D07)
+val infoAlertColor= Color(0xFF3D3D4C)
+
 

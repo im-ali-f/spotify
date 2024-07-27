@@ -19,6 +19,7 @@ class GeneralViewModel(
     var context: Context
 ) : ViewModel() {
     //permission handling
+    var selectedAlert = mutableStateOf("")
 
     /*
         fun checkPermissions() {//todo change permissions that needed
@@ -107,6 +108,7 @@ class GeneralViewModel(
     fun logoutFunctionallity(navController:NavController){
         clearData("token")
         navController.navigate("loginPage")
+        selectedAlert.value="successLogout"
     }
 
 }

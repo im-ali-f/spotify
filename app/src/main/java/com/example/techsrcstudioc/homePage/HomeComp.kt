@@ -482,7 +482,7 @@ fun HomeComp(
                 }
             }
             SharedTransitionLayout {
-                NavHost(navController = innerNavState, startDestination = "historyPart") {
+                NavHost(navController = innerNavState, startDestination = "searchPart") {
 
                     composable("searchPart") {
                         SearchComp(navController = navController, generalModel = generalModel, searchModel =searchModel, trackModel )

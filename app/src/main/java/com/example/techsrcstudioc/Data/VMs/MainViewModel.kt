@@ -17,7 +17,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 
-class MainViewModel(private val repository: Repository) : ViewModel() {
+class MainViewModel(private val repository: Repository,var gerenalModel:GeneralViewModel) : ViewModel() {
 
     var viewModelGetSearchedResponse: MutableLiveData<Response<searchResponse>> = MutableLiveData()
     fun GetSearchedItems(tokenUser:String , enteredSearch :String,limit:Int,offset:Int) {
@@ -27,6 +27,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
                 viewModelGetSearchedResponse.value = response
             } catch (e: Exception) {
                 Log.d("GetSearchedItems mainVM --> Error", "${e.message} ")
+                gerenalModel.selectedAlert.value="errorServerapi"
             }
 
         }
@@ -40,6 +41,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
                 viewModelGetCurrentlyPlaingResponse.value = response
             } catch (e: Exception) {
                 Log.d("GetSearchedItems mainVM --> Error", "${e.message} ")
+                gerenalModel.selectedAlert.value="errorServerapi"
             }
 
         }
@@ -53,6 +55,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
                 viewModelGetHistoryResponse.value = response
             } catch (e: Exception) {
                 Log.d("GetHistoryItems mainVM --> Error", "${e.message} ")
+                gerenalModel.selectedAlert.value="errorServerapi"
             }
 
         }

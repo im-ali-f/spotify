@@ -10,11 +10,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
@@ -31,6 +34,7 @@ import com.example.techsrcstudioc.Data.VMs.LoginLogoutViewModel
 import com.example.techsrcstudioc.Data.VMs.MainViewModel
 import com.example.techsrcstudioc.Data.VMs.SearchViewModel
 import com.example.techsrcstudioc.Data.VMs.TrackViewModel
+import com.example.techsrcstudioc.addons.AlertComp
 import com.example.techsrcstudioc.homePage.HomeComp
 import com.example.techsrcstudioc.loginPage.LoginComp
 import com.example.techsrcstudioc.ui.theme.TechsrcstudiocTheme
@@ -80,9 +84,8 @@ class MainActivity : ComponentActivity() {
         //view models dependency
         var context = this
         val repo = Repository()
-
-        mainVM = MainViewModel(repo)
         gerenalVM = GeneralViewModel(requestPermissionsLauncher, context)
+        mainVM = MainViewModel(repo,gerenalVM)
         lsVM = LoginLogoutViewModel(context)
         searchVM = SearchViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM)
         trackVM = TrackViewModel(gerenalModel = gerenalVM, owner = this, mainViewModel = mainVM, spotifyAppRemote = spotifyAppRemote)
@@ -94,87 +97,94 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TechsrcstudiocTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = mainBGC
-                ) {
+                Box(modifier = Modifier.fillMaxSize()){
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = mainBGC
+                    ) {
 
-                    val navStateBig = rememberNavController()
-                    val startDestination = if(gerenalVM.IsExpiredToken()) "loginPage" else "homePage"
-                    NavHost(navController = navStateBig, startDestination = startDestination) {
-                        composable("loginPage") {
-                            LoginComp(
-                                navController = navStateBig,
-                                generalModel = gerenalVM,
-                                lsModel = lsVM
-                            )
+                        val navStateBig = rememberNavController()
+                        val startDestination = if(gerenalVM.IsExpiredToken()) "loginPage" else "homePage"
+                        NavHost(navController = navStateBig, startDestination = startDestination) {
+                            composable("loginPage") {
+                                LoginComp(
+                                    navController = navStateBig,
+                                    generalModel = gerenalVM,
+                                    lsModel = lsVM
+                                )
 
-                        }
-
-                        composable(
-                            route = "DoNotUseThisRoute",
-                            deepLinks = listOf(
-                                navDeepLink {
-                                    //uriPattern = "http://192.168.1.103:3000/api/auth/spotify/callback#access_token={token}&token_type={type}&expires_in={expire}"
-                                    uriPattern = "https://cup-apis.javatime.ir/#access_token={token}&token_type={type}&expires_in={expire}"
-                                    action = Intent.ACTION_VIEW
-                                }
-                            ),
-                            arguments = listOf(
-                                navArgument("token") {
-                                    type = NavType.StringType
-                                    defaultValue = ""
-                                },
-                                navArgument("type") {
-                                    type = NavType.StringType
-                                    defaultValue = ""
-                                },
-                                navArgument("expire") {
-                                    type = NavType.IntType
-                                    defaultValue = 0
-                                }
-                            )
-                        ) { entry ->
-                            gerenalVM.saveData("token", entry.arguments?.get("token").toString())
-                            gerenalVM.saveData("expire", gerenalVM.calculateExpire())
-                            Log.d(TAG, "onCreate: ${entry.arguments?.get("token")}")
-                            Log.d(TAG, "onCreate: ${entry.arguments?.get("expire")}")
-                            navStateBig.navigate("homePage")
-
-
-                        }
-                        composable(route = "homePage"){
-                            HomeComp(
-                                navController = navStateBig,
-                                generalModel = gerenalVM,
-                                lsModel = lsVM,
-                                searchModel = searchVM,
-                                trackModel = trackVM,
-                                historyModel = historyVM
-                            )
-                        }
-
-                        /*
-                        composable("detail/{index}",
-                        arguments = listOf(
-                            navArgument("index") {
-                                type = NavType.IntType
                             }
-                        )) {
-                        var index = it.arguments?.getInt("index")
-                        DetailComp(
-                            model = model,
-                            navController = navController,
-                            index = index as Int,
-                            animatedVisibilityScope = this
-                        )
+
+                            composable(
+                                route = "DoNotUseThisRoute",
+                                deepLinks = listOf(
+                                    navDeepLink {
+                                        //uriPattern = "http://192.168.1.103:3000/api/auth/spotify/callback#access_token={token}&token_type={type}&expires_in={expire}"
+                                        uriPattern = "https://cup-apis.javatime.ir/#access_token={token}&token_type={type}&expires_in={expire}"
+                                        action = Intent.ACTION_VIEW
+                                    }
+                                ),
+                                arguments = listOf(
+                                    navArgument("token") {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    },
+                                    navArgument("type") {
+                                        type = NavType.StringType
+                                        defaultValue = ""
+                                    },
+                                    navArgument("expire") {
+                                        type = NavType.IntType
+                                        defaultValue = 0
+                                    }
+                                )
+                            ) { entry ->
+                                gerenalVM.selectedAlert.value="successLogin"
+                                gerenalVM.saveData("token", entry.arguments?.get("token").toString())
+                                gerenalVM.saveData("expire", gerenalVM.calculateExpire())
+                                Log.d(TAG, "onCreate: ${entry.arguments?.get("token")}")
+                                Log.d(TAG, "onCreate: ${entry.arguments?.get("expire")}")
+                                navStateBig.navigate("homePage")
+
+
+                            }
+                            composable(route = "homePage"){
+                                HomeComp(
+                                    navController = navStateBig,
+                                    generalModel = gerenalVM,
+                                    lsModel = lsVM,
+                                    searchModel = searchVM,
+                                    trackModel = trackVM,
+                                    historyModel = historyVM
+                                )
+                            }
+
+                            /*
+                            composable("detail/{index}",
+                            arguments = listOf(
+                                navArgument("index") {
+                                    type = NavType.IntType
+                                }
+                            )) {
+                            var index = it.arguments?.getInt("index")
+                            DetailComp(
+                                model = model,
+                                navController = navController,
+                                index = index as Int,
+                                animatedVisibilityScope = this
+                            )
+                            }
+                             */
+
                         }
-                         */
+
 
                     }
-
-
+                    Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+                        AlertComp(gerenalVM.selectedAlert)
+                    }
                 }
+
             }
         }
     }
@@ -196,6 +206,7 @@ class MainActivity : ComponentActivity() {
 
             override fun onFailure(throwable: Throwable) {
                 Log.e("spotify", throwable.message, throwable)
+                gerenalVM.selectedAlert.value="errorSpotify"
             }
         })
     }

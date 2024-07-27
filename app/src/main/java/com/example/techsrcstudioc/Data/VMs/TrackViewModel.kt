@@ -158,7 +158,7 @@ class TrackViewModel(
 
             } else {
                 Log.d("GetCurrentPlaying --> error", response.errorBody()?.string() as String)
-
+                gerenalModel.selectedAlert.value="errorServerapi"
             }
         })
     }

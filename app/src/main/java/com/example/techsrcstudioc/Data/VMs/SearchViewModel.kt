@@ -46,7 +46,7 @@ class SearchViewModel(
 
                 } else {
                     Log.d("GetSearchedItems --> error", response.errorBody()?.string() as String)
-
+                    gerenalModel.selectedAlert.value="errorServerapi"
                 }
             })
         }
@@ -88,7 +88,7 @@ class SearchViewModel(
 
                 } else {
                     Log.d("GetSearchedItems --> error", response.errorBody()?.string() as String)
-
+                    gerenalModel.selectedAlert.value="errorServerapi"
                 }
             })
         }

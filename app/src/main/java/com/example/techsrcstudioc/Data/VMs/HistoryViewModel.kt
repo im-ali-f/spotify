@@ -46,7 +46,7 @@ class HistoryViewModel(
 
                 } else {
                     Log.d("GetHistoryItemsFunctionallity --> error", response.errorBody()?.string() as String)
-
+                    gerenalModel.selectedAlert.value="errorServerapi"
                 }
             })
 
@@ -86,7 +86,7 @@ class HistoryViewModel(
 
                 } else {
                     Log.d("ContinueGetHistoryItemsFunctionallity --> error", response.errorBody()?.string() as String)
-
+                    gerenalModel.selectedAlert.value="errorServerapi"
                 }
             })
 
