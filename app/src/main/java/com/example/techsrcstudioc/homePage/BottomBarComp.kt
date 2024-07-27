@@ -13,11 +13,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -40,8 +42,10 @@ import com.example.techsrcstudioc.Data.VMs.TrackViewModel
 import com.example.techsrcstudioc.R
 import com.example.techsrcstudioc.addons.shimmerEffect
 import com.example.techsrcstudioc.ui.theme.lightWhiteFontColor
+import com.example.techsrcstudioc.ui.theme.progressColor
 import com.example.techsrcstudioc.ui.theme.searchIconColor
 import com.example.techsrcstudioc.ui.theme.selectedBottomIcon
+import com.example.techsrcstudioc.ui.theme.unProgressColor
 import com.example.techsrcstudioc.ui.theme.unselectedBottomIcon
 
 @Composable
@@ -58,6 +62,7 @@ fun BottomBarComp(
                     Modifier
                         .fillMaxWidth()
                         .padding(start = 8.dp, end = 8.dp)
+                , horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     //info and controll
                     Row(
@@ -118,15 +123,13 @@ fun BottomBarComp(
                         }
                         Box(Modifier.padding(end = 12.dp)) {
                             IconButton(
-                                modifier = Modifier.size(22.dp),
                                 onClick = {
-                                    //todo play
+                                    trackModel.playing = !trackModel.playing
                                 }) {
-                                androidx.compose.material.Icon(
+                                Icon(
                                     modifier = Modifier
-                                        .fillMaxSize()
-                                        .offset(x = 2.dp),
-                                    painter = painterResource(id = R.drawable.play),
+                                        .requiredSize(30.dp),
+                                    painter = painterResource(id = if(trackModel.playing) R.drawable.pause else R.drawable.play),
                                     contentDescription = null,
                                     tint = Color.White
                                 )
@@ -134,6 +137,16 @@ fun BottomBarComp(
                         }
 
                     }
+
+                    LinearProgressIndicator(
+                        progress = trackModel.trackListened,
+                        color = progressColor,
+                        trackColor = unProgressColor,
+                        modifier = Modifier
+                            .fillMaxWidth(0.95f)
+                            .offset(y=-3.dp)
+                            .height(2.dp)
+                    )
                 }
             }
 
