@@ -355,7 +355,8 @@ fun HomeComp(
                                             .padding(bottom = 10.dp)
                                             .size(30.dp),
                                         onClick = {
-                                            trackModel.shuffle = true
+                                            trackModel.shuffle = !trackModel.shuffle
+                                            trackModel.shuffle()
                                         }) {
                                         androidx.compose.material3.Icon(
                                             modifier = Modifier.size(25.dp),
@@ -370,7 +371,7 @@ fun HomeComp(
                                             .padding(bottom = 10.dp)
                                             .size(30.dp),
                                         onClick = {
-
+                                            trackModel.previousTrack()
                                         }) {
                                         androidx.compose.material3.Icon(
                                             modifier = Modifier.size(30.dp),
@@ -405,7 +406,7 @@ fun HomeComp(
                                             .padding(bottom = 10.dp)
                                             .size(30.dp),
                                         onClick = {
-
+                                            trackModel.nextTrack()
                                         }) {
                                         androidx.compose.material3.Icon(
                                             modifier = Modifier.size(30.dp),
@@ -426,11 +427,12 @@ fun HomeComp(
                                             }else{
                                                 trackModel.repeatNum = 1
                                             }
+                                            trackModel.repeatMode()
 
                                         }) {
                                         androidx.compose.material3.Icon(
                                             modifier = Modifier.size(25.dp),
-                                            painter = painterResource(id = if(trackModel.repeatNum ==1) R.drawable.repeat_off else if(trackModel.repeatNum ==2) R.drawable.repeat_off else R.drawable.repeat_current_music),
+                                            painter = painterResource(id = if(trackModel.repeatNum ==1) R.drawable.repeat_off else if(trackModel.repeatNum ==2) R.drawable.repeat_current_music else R.drawable.repeat_off),
                                             contentDescription = null,
                                             tint = if(trackModel.repeatNum !=1) activatedBTN else Color.White
                                         )

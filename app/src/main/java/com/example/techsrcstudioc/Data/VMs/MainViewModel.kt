@@ -7,6 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.techsrcstudioc.Data.API.Repository
+import com.example.techsrcstudioc.Data.Models.currentlyplayingModel.currentlyPlayingResponse
+import com.example.techsrcstudioc.Data.Models.searchModel.Item
 import com.example.techsrcstudioc.Data.Models.searchModel.searchResponse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,6 +24,19 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
             try {
                 val response: Response<searchResponse> = repository.GetSearchedItems(tokenUser = tokenUser , enteredSearch = enteredSearch , limit = limit , offset = offset)
                 viewModelGetSearchedResponse.value = response
+            } catch (e: Exception) {
+                Log.d("GetSearchedItems mainVM --> Error", "${e.message} ")
+            }
+
+        }
+    }
+
+    var viewModelGetCurrentlyPlaingResponse: MutableLiveData<Response<currentlyPlayingResponse>> = MutableLiveData()
+    fun GetCurrentlyPlaing(tokenUser:String , ) {
+        viewModelScope.launch { //kotlin coroutines
+            try {
+                val response: Response<currentlyPlayingResponse> = repository.GetCurrentlyPlaing(tokenUser = tokenUser)
+                viewModelGetCurrentlyPlaingResponse.value = response
             } catch (e: Exception) {
                 Log.d("GetSearchedItems mainVM --> Error", "${e.message} ")
             }

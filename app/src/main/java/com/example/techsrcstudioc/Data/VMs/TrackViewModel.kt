@@ -7,6 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.example.techsrcstudioc.Data.Models.searchModel.Album
 import com.example.techsrcstudioc.Data.Models.searchModel.ArtistX
@@ -104,6 +106,61 @@ class TrackViewModel(
         }
         return artistToReturn
     }
+    fun GetCurrentPlaying(){
+        val tokenToSend = "Bearer " + gerenalModel.getData("token", "")
+        mainViewModel.GetCurrentlyPlaing(
+            "$tokenToSend",)
+        mainViewModel.viewModelGetCurrentlyPlaingResponse.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
+
+                Log.d("GetCurrentPlaying --> success", response.body().toString())
+                response.body()?.let {
+                    selectedTrack = Item(
+                        track_number = it.item.track_number,
+                        artists = it.item.artists,
+                        name = "",
+                        id = "",
+                        album = Album(
+                            id = "",
+                            artists = listOf(),
+                            available_markets = listOf(),
+                            external_urls = ExternalUrlsXXX(""),
+                            href = "",
+                            images = listOf(),
+                            name = "",
+                            release_date = "",
+                            release_date_precision = "",
+                            total_tracks = 0,
+                            type = "",
+                            uri = "",
+                            album_type = ""
+                        ),
+                        disc_number = 0,
+                        duration_ms = 0,
+                        explicit = false,
+                        external_ids = ExternalIds(""),
+                        external_urls = ExternalUrlsXXX(""),
+                        href = "",
+                        is_local = false,
+                        popularity = 0,
+                        preview_url = "",
+                        type = "",
+                        uri = "",
+                        available_markets = listOf()
+
+
+                    )
+                }
+
+
+                mainViewModel.viewModelGetCurrentlyPlaingResponse = MutableLiveData()
+
+            } else {
+                Log.d("GetCurrentPlaying --> error", response.errorBody()?.string() as String)
+
+            }
+        })
+    }
 
     fun play() {
         spotifyAppRemoteInner?.let {
@@ -112,7 +169,9 @@ class TrackViewModel(
             it.playerApi.play(playlistURI)
             it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
                 val track: Track = playerState.track
-                Log.d("MainActivity", "${track.name} by ${track.artist.name}")
+                GetCurrentPlaying()
+                Log.d("play", "${track.name} by ${track.artist.name}")
+                Log.d("play", "${track}")
             }
         }
     }
@@ -124,7 +183,7 @@ class TrackViewModel(
             it.playerApi.pause()
             it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
                 val track: Track = playerState.track
-                Log.d("MainActivity", "${track.name} by ${track.artist.name}")
+                Log.d("stop", "${track.name} by ${track.artist.name}")
             }
         }
     }
@@ -136,8 +195,57 @@ class TrackViewModel(
             it.playerApi.resume()
             it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
                 val track: Track = playerState.track
-                Log.d("MainActivity", "${track.name} by ${track.artist.name}")
+                Log.d("resume", "${track.name} by ${track.artist.name}")
             }
         }
     }
+
+    fun shuffle() {
+        spotifyAppRemoteInner?.let {
+            //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
+            val playlistURI = selectedTrack.uri
+            it.playerApi.setShuffle(shuffle)
+            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+                val track: Track = playerState.track
+                Log.d("shuffle", "${track.name} by ${track.artist.name}")
+            }
+        }
+    }
+
+    fun nextTrack() {
+        spotifyAppRemoteInner?.let {
+            //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
+            val playlistURI = selectedTrack.uri
+            it.playerApi.skipNext()
+            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+                val track: Track = playerState.track
+                Log.d("nextTrack", "${track.name} by ${track.artist.name}")
+            }
+        }
+    }
+    fun previousTrack() {
+        spotifyAppRemoteInner?.let {
+            //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
+            val playlistURI = selectedTrack.uri
+            it.playerApi.skipPrevious()
+            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+                val track: Track = playerState.track
+                Log.d("previousTrack", "${track.name} by ${track.artist.name}")
+            }
+        }
+    }
+    fun repeatMode() {
+        spotifyAppRemoteInner?.let {
+            //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
+            val playlistURI = selectedTrack.uri
+            it.playerApi.toggleRepeat()
+            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+                val track: Track = playerState.track
+                Log.d("repeatMode", "${track.name} by ${track.artist.name}")
+            }
+        }
+    }
+
+
+
 }

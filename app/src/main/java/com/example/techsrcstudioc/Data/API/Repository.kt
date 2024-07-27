@@ -1,6 +1,7 @@
 package com.example.techsrcstudioc.Data.API
 
 
+import com.example.techsrcstudioc.Data.Models.currentlyplayingModel.currentlyPlayingResponse
 import com.example.techsrcstudioc.Data.Models.searchModel.Item
 import com.example.techsrcstudioc.Data.Models.searchModel.searchResponse
 import okhttp3.MultipartBody
@@ -11,7 +12,11 @@ class Repository {
 
     suspend fun GetSearchedItems(tokenUser :String , enteredSearch:String , limit:Int  , offset:Int ): Response<searchResponse> {
 
-        return RetrofitInstance.api.GetSearchedItems(tokenUser = tokenUser, enteredSearch =  enteredSearch , limit = limit , offset = offset) //todo limit v aoffset dynamic she
+        return RetrofitInstance.api.GetSearchedItems(tokenUser = tokenUser, enteredSearch =  enteredSearch , limit = limit , offset = offset)
+    }
+    suspend fun GetCurrentlyPlaing(tokenUser :String  ): Response<currentlyPlayingResponse> {
+
+        return RetrofitInstance.api.GetCurrentlyTrack(tokenUser = tokenUser )
     }
 
     /*

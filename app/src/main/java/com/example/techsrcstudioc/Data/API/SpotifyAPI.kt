@@ -1,6 +1,8 @@
 package com.example.techsrcstudioc.Data.API
 
 
+import com.example.techsrcstudioc.Data.Models.currentlyplayingModel.currentlyPlayingResponse
+import com.example.techsrcstudioc.Data.Models.searchModel.Item
 import com.example.techsrcstudioc.Data.Models.searchModel.searchResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -20,6 +22,12 @@ interface SpotifyAPI {
         @Query("include_external") includeExternal: String = "audio",
         @Header("Authorization") tokenUser: String
     ):Response<searchResponse>
+
+    @GET("v1/me/player/currently-playing")
+    suspend fun GetCurrentlyTrack(
+        @Query("additional_types") additionalTypes: String = "track",
+        @Header("Authorization") tokenUser: String
+    ):Response<currentlyPlayingResponse>
 
     /*
     @POST("users/login/")
