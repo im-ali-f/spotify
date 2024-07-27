@@ -78,6 +78,7 @@ class TrackViewModel(
 
     var voloume by mutableStateOf(0.5f)
     var trackListened by mutableStateOf(0.1f)
+    var passedTimeMillisGlobal by mutableStateOf<Long>(0)
 
     var duration by mutableStateOf( 1)
     var totalTime by mutableStateOf("")
@@ -88,10 +89,11 @@ class TrackViewModel(
 
         // Calculate the passed time in milliseconds
         val passedTimeMillis = (trackListenedPercentage * duration).toInt()
-
+        passedTimeMillisGlobal = passedTimeMillis.toLong()
+        Log.d("passedTime", "calculatepassedTime: $passedTimeMillis")
         // Convert the passed time into minutes and seconds
-        val mins = (passedTimeMillis / 6000)
-        val seconds = (passedTimeMillis % 6000)/1000
+        val mins = (passedTimeMillis / 60000)
+        val seconds = (passedTimeMillis % 60000)/1000
 
         // Return formatted time as "minutes:seconds"
         return String.format("%d:%02d", mins, seconds)
@@ -136,6 +138,19 @@ class TrackViewModel(
 
             }
         })
+    }
+    fun seek(num:Long) {
+        spotifyAppRemoteInner?.let {
+            //val playlistURI = "spotify:album:2sguvaXAzKE5mH8FABsWOi"
+            val playlistURI = selectedTrack.uri
+            it.playerApi.seekTo(num)
+            it.playerApi.subscribeToPlayerState().setEventCallback { playerState ->
+                val track: Track = playerState.track
+
+                Log.d("seek", "${track.name} by ${track.artist.name}")
+                Log.d("seek", "${track}")
+            }
+        }
     }
 
     fun play() {

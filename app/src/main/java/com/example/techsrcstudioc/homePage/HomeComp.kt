@@ -516,7 +516,7 @@ fun PercentageSlider(trackModel: TrackViewModel) {
                 valueRange = 0f..1f,
                 interactionSource = interactionSource,
                 onValueChangeFinished = {
-
+                    trackModel.seek(trackModel.passedTimeMillisGlobal)
                 },
                 colors = SliderColors(
                     thumbColor = Color.White,
